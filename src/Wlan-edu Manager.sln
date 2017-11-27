@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wlanedumain", "wlanedumain\wlanedumain.csproj", "{39FBCEE5-88D6-481F-86B0-C7FD266378C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Login", "Login\Login.csproj", "{698865CE-66FE-4A6F-A10C-572E21EF2141}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cmdline Mangers", "Cmdline Mangers", "{FCD6F563-446A-4EFA-98E9-82E4E25C770B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logout", "Logout\Logout.csproj", "{C7B05850-EBA7-4B60-9A39-879DA4010240}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39FBCEE5-88D6-481F-86B0-C7FD266378C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39FBCEE5-88D6-481F-86B0-C7FD266378C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39FBCEE5-88D6-481F-86B0-C7FD266378C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39FBCEE5-88D6-481F-86B0-C7FD266378C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{698865CE-66FE-4A6F-A10C-572E21EF2141}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{698865CE-66FE-4A6F-A10C-572E21EF2141}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{698865CE-66FE-4A6F-A10C-572E21EF2141}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{698865CE-66FE-4A6F-A10C-572E21EF2141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7B05850-EBA7-4B60-9A39-879DA4010240}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7B05850-EBA7-4B60-9A39-879DA4010240}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7B05850-EBA7-4B60-9A39-879DA4010240}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7B05850-EBA7-4B60-9A39-879DA4010240}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{698865CE-66FE-4A6F-A10C-572E21EF2141} = {FCD6F563-446A-4EFA-98E9-82E4E25C770B}
+		{C7B05850-EBA7-4B60-9A39-879DA4010240} = {FCD6F563-446A-4EFA-98E9-82E4E25C770B}
+	EndGlobalSection
+EndGlobal
