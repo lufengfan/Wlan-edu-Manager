@@ -66,4 +66,8 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)..\bin\"
+copy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)..\bin\"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cmdline Mangers", "Cmdline 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logout", "Logout\Logout.csproj", "{C7B05850-EBA7-4B60-9A39-879DA4010240}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{3C35A3ED-E401-4A17-94D0-78F23C00EDFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugReport", "BugReport\BugReport.csproj", "{49E012ED-A8A5-405D-913D-14914E19F26D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,10 @@ Global
 		{C7B05850-EBA7-4B60-9A39-879DA4010240}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7B05850-EBA7-4B60-9A39-879DA4010240}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7B05850-EBA7-4B60-9A39-879DA4010240}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49E012ED-A8A5-405D-913D-14914E19F26D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49E012ED-A8A5-405D-913D-14914E19F26D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49E012ED-A8A5-405D-913D-14914E19F26D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49E012ED-A8A5-405D-913D-14914E19F26D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,5 +44,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{698865CE-66FE-4A6F-A10C-572E21EF2141} = {FCD6F563-446A-4EFA-98E9-82E4E25C770B}
 		{C7B05850-EBA7-4B60-9A39-879DA4010240} = {FCD6F563-446A-4EFA-98E9-82E4E25C770B}
+		{49E012ED-A8A5-405D-913D-14914E19F26D} = {3C35A3ED-E401-4A17-94D0-78F23C00EDFE}
 	EndGlobalSection
 EndGlobal
