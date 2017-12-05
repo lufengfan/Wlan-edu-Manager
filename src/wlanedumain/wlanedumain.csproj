@@ -39,12 +39,11 @@
     <AssemblyOriginatorKeyFile>PublicKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HtmlAgilityPack, Version=1.6.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.6.5\lib\Net20\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.6.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.6.6\lib\Net20\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="ManagedWifi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e54db72fe3e3a513, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\static\ManagedWifi.dll</HintPath>
+    <Reference Include="ManagedWifi">
+      <HintPath>..\package-temp\managedwifi.1.1.0\ManagedWifi.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -89,7 +88,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)..\bin\"
+    <PostBuildEvent>if not exist "$(SolutionDir)..\bin\" (md "$(SolutionDir)..\bin\")
+
+copy "$(TargetPath)" "$(SolutionDir)..\bin\"
 copy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)..\bin\"
 copy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)..\bin\"
 
@@ -97,7 +98,17 @@ copy "$(TargetDir)HtmlAgilityPack.*" "$(SolutionDir)..\bin\"
 copy "$(TargetDir)ManagedWifi.*" "$(SolutionDir)..\bin\"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>if not exist "$(SolutionDir)package-temp\managedwifi.1.1.0" (md "$(SolutionDir)package-temp\managedwifi.1.1.0")
+
+cd "$(SolutionDir)package-temp\managedwifi.1.1.0\"
+
+if not exist "ManagedWifi.dll" (
+  copy "$(SolutionDir)packages\managedwifi.1.1.0\lib\net20"
+  
+  "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\ildasm.exe" "ManagedWifi.dll" /out:"ManagedWifi.il"
+  "C:\Windows\Microsoft.NET\Framework64\v2.0.50727\ilasm.exe" "ManagedWifi.il" /dll /resource="ManagedWifi.res" /key="$(SolutionDir)PublicKey.snk" /optimize /debug
+)
+
+cd "$(TargetDir)"</PreBuildEvent>
   </PropertyGroup>
 </Project>

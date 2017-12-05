@@ -1,0 +1,9 @@
+﻿<Application x:Class="SamLu.Tools.Wlan_edu_Manager.GUI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:SamLu.Tools.Wlan_edu_Manager.GUI"
+             StartupUri="DisconnectionWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

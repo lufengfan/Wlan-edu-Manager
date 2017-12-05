@@ -24,7 +24,7 @@ namespace SamLu.Native.Wifi
             }
         }
 
-        private Timer timer = new Timer() { Enabled = false, Interval = 1000 };
+        private Timer timer = new Timer() { Enabled = false, Interval = 10000 };
         private WIFISSID ssid = null;
         
         public WIFISSID CurrentConnection { get => this.ssid; }
@@ -36,6 +36,24 @@ namespace SamLu.Native.Wifi
         protected virtual void OnConnected(EventArgs e)
         {
             this.Connected?.Invoke(this, e);
+        }
+        #endregion
+
+        #region ScaningStarted
+        public event EventHandler ScaningStarted;
+
+        protected virtual void OnScanningStarted(EventArgs e)
+        {
+            this.ScaningStarted?.Invoke(this, e);
+        }
+        #endregion
+
+        #region ScanningCompleted
+        public event EventHandler ScanningCompleted;
+
+        protected virtual void OnScanningCompleted(EventArgs e)
+        {
+            this.ScanningCompleted?.Invoke(this, e);
         }
         #endregion
 
@@ -107,6 +125,8 @@ namespace SamLu.Native.Wifi
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            this.OnScanningStarted(EventArgs.Empty);
+
             WifiWatcher.GetNativeWifi(out WIFISSID current, out WIFISSID[] ssids);
             this.SSIDs = ssids;
 
@@ -115,13 +135,15 @@ namespace SamLu.Native.Wifi
                 bool connected = this.ssid == null;
 
                 this.ssid = current;
-                this.OnCurrentConnectionChanged(new EventArgs());
+                this.OnCurrentConnectionChanged(EventArgs.Empty);
 
                 if (connected)
-                    this.OnDisconnected(new EventArgs());
+                    this.OnDisconnected(EventArgs.Empty);
                 else
-                    this.OnConnected(new EventArgs());
+                    this.OnConnected(EventArgs.Empty);
             }
+
+            this.OnScanningCompleted(EventArgs.Empty);
         }
     }
 }

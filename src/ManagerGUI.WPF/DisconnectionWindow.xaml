@@ -1,0 +1,45 @@
+﻿<controls:PenetrableWindow x:Class="SamLu.Tools.Wlan_edu_Manager.GUI.DisconnectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SamLu.Tools.Wlan_edu_Manager.GUI"
+        xmlns:controls ="clr-namespace:SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WPF;assembly=ctrllib"
+        xmlns:svg2xaml="clr-namespace:Svg2Xaml;assembly=Svg2Xaml"
+        xmlns:taskbarnotification="clr-namespace:Hardcodet.Wpf.TaskbarNotification;assembly=Hardcodet.Wpf.TaskbarNotification"
+        mc:Ignorable="d"
+        Title="DisconnectionWindow" Height="600" Width="600" IsPenetrate="True" AllowsTransparency="True" WindowStyle="None" Background="#7FFFFFFF" Topmost="True" WindowState="Maximized">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <controls:LoadingRing>
+            <Label Content="LABEL" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+        </controls:LoadingRing>
+        <StackPanel VerticalAlignment="Center">
+            <Image Width="180" Height="180" Source="{svg2xaml:SvgImage svgs/disconnect_connection.svg}">
+            </Image>
+            <Label HorizontalContentAlignment="Center" FontFamily="Segoe UI" Foreground="White" FontSize="36" Content="DISCONNECTION"/>
+            <Label HorizontalContentAlignment="Center" FontFamily="Myriad Arabic" Foreground="White" FontSize="36" FontWeight="Bold" Content="NETWORK FAIL">
+            </Label>
+            <Label x:Name="lblWifiWatcherMsg" HorizontalAlignment="Center" FontFamily="Microsoft YaHei" Foreground="White" FontSize="12" Content="未连接网络。"></Label>
+
+            <StackPanel.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="0" Opacity="0.75"></DropShadowEffect>
+            </StackPanel.Effect>
+            <StackPanel.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard AutoReverse="True" RepeatBehavior="Forever">
+                            <DoubleAnimation BeginTime="0:0:0.0" Duration="0:0:1.5" From="1" To="0.25" Storyboard.TargetProperty="Opacity"></DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </StackPanel.Triggers>
+        </StackPanel>
+        <taskbarnotification:TaskbarIcon x:Name="tskbIcon">
+            <taskbarnotification:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="高级(_S)"></MenuItem>
+                </ContextMenu>
+            </taskbarnotification:TaskbarIcon.ContextMenu>
+        </taskbarnotification:TaskbarIcon>
+    </Grid>
+</controls:PenetrableWindow>
