@@ -10,9 +10,7 @@
         mc:Ignorable="d"
         Title="DisconnectionWindow" Height="600" Width="600" IsPenetrate="True" AllowsTransparency="True" WindowStyle="None" Background="#7FFFFFFF" Topmost="True" WindowState="Maximized">
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-        <controls:LoadingRing>
-            <Label Content="LABEL" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
-        </controls:LoadingRing>
+        <controls:LoadingRing Padding="50" ActivatedCellFillColor="Blue" DeactivatedCellFillColor="SeaGreen">
         <StackPanel VerticalAlignment="Center">
             <Image Width="180" Height="180" Source="{svg2xaml:SvgImage svgs/disconnect_connection.svg}">
             </Image>
@@ -33,7 +31,8 @@
                     </BeginStoryboard>
                 </EventTrigger>
             </StackPanel.Triggers>
-        </StackPanel>
+            </StackPanel>
+        </controls:LoadingRing>
         <taskbarnotification:TaskbarIcon x:Name="tskbIcon">
             <taskbarnotification:TaskbarIcon.ContextMenu>
                 <ContextMenu>

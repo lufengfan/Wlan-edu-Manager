@@ -26,13 +26,15 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
         {
             InitializeComponent();
 
+            
+
             this.wifiWatcher.ScaningStarted += (sende, e) =>
             {
                 this.Dispatcher.Invoke((Action<string>)this.changeWifiWatcherMsg, "正在搜索 Wifi 信号……");
             };
             this.wifiWatcher.ScanningCompleted += (sender, e) =>
             {
-                var ssid = ((WifiWatcher)sender).CurrentConnection;
+                var ssid = e.CurrentConnection;
                 if (ssid == null)
                     this.Dispatcher.Invoke((Action<string>)this.changeWifiWatcherMsg, "未连接网络。");
                 else

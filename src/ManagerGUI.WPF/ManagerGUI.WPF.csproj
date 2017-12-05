@@ -158,7 +158,6 @@ cd "$(TargetDir)"</PreBuildEvent>
 
 copy "$(TargetPath)" "$(SolutionDir)..\bin\"
 copy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)..\bin\"
-copy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)..\bin\"
 
 copy "$(TargetDir)Hardcodet.Wpf.TaskbarNotification.*" "$(SolutionDir)..\bin\"
 copy "$(TargetDir)Svg2Xaml.*" "$(SolutionDir)..\bin\"</PostBuildEvent>

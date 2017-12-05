@@ -49,9 +49,9 @@ namespace SamLu.Native.Wifi
         #endregion
 
         #region ScanningCompleted
-        public event EventHandler ScanningCompleted;
+        public event WifiScanningCompletedEventHandler ScanningCompleted;
 
-        protected virtual void OnScanningCompleted(EventArgs e)
+        protected virtual void OnScanningCompleted(WifiScanningCompletedEventArgs e)
         {
             this.ScanningCompleted?.Invoke(this, e);
         }
@@ -125,6 +125,7 @@ namespace SamLu.Native.Wifi
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            this.timer.Start();
             this.OnScanningStarted(EventArgs.Empty);
 
             WifiWatcher.GetNativeWifi(out WIFISSID current, out WIFISSID[] ssids);
@@ -143,7 +144,8 @@ namespace SamLu.Native.Wifi
                     this.OnConnected(EventArgs.Empty);
             }
 
-            this.OnScanningCompleted(EventArgs.Empty);
+            this.OnScanningCompleted(new WifiScanningCompletedEventArgs(current, ssids));
+            this.timer.Start();
         }
     }
 }

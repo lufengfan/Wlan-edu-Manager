@@ -76,6 +76,7 @@
     <Compile Include="ManagerPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\ThisAssembly.cs" />
+    <Compile Include="SamLu\Native\Wifi\WifiScanningCompletedEventArgs.cs" />
     <Compile Include="SamLu\Native\Wifi\WIFISSID.cs" />
     <Compile Include="SamLu\Native\Wifi\WifiWatcher.cs" />
     <Compile Include="SamLu\Web\HttpRequestUtil.cs" />
