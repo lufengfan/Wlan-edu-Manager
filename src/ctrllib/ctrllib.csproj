@@ -72,24 +72,16 @@
     </Compile>
     <Compile Include="WPF\CamberLoadingRingCell.cs" />
     <Compile Include="WPF\DataPropertyMetadata.cs" />
-    <Compile Include="WPF\LoadingRing.properties.cs">
-      <DependentUpon>LoadingRing.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WPF\LoadingRing.xaml.cs">
-      <DependentUpon>LoadingRing.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="WPF\LoadingRing.xaml.cs" />
+    <Compile Include="WPF\LoadingRing.properties.cs" />
+    <Compile Include="WPF\LoadingRing.cs" />
     <Compile Include="WPF\LoadingRingCell.cs" />
+    <Compile Include="WPF\LoadingRingStyle.cs" />
     <Compile Include="WPF\PenetrableWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="PublicKey.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="WPF\LoadingRing.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -81,7 +81,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DisconnectionWindow.logic.cs" />
+    <Compile Include="DisconnectionWindow.logic.cs">
+      <DependentUpon>DisconnectionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DisconnectionWindow.xaml.cs">
       <DependentUpon>DisconnectionWindow.xaml</DependentUpon>
     </Compile>

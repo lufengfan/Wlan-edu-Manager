@@ -14,6 +14,8 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WPF
         
         protected override Geometry DefiningGeometry => this.geometry ?? Geometry.Empty;
 
+        public Rect DefiningGeometryBounds => this.DefiningGeometry.Bounds;
+
         #region CellRadian
         public static readonly DependencyProperty CellRadianProperty =
             DependencyProperty.Register(
@@ -83,12 +85,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WPF
         {
             const double angle_per_circle = 360.0;
             double direction = (double)baseValue;
-            double angle = Math.IEEERemainder(Math.Abs(direction), angle_per_circle);
-
-            if (direction > 0)
-                return angle;
-            else
-                return angle_per_circle - angle;
+            return Math.Abs(direction) % angle_per_circle;
         }
 
         private static bool DirectionValidateCallback(object value)

@@ -36,11 +36,11 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WPF
         private Point caculateInsectionPoint(double radius, double direction, Point centerPoint)
         {
             const double angle_per_circle = 360.0;
-            double a = direction / angle_per_circle * Math.PI;
+            double a = (direction + angle_per_circle / 2) / angle_per_circle * 2 * Math.PI;
 
-            double sinh = Math.Sinh(a);
-            double cosh = Math.Cosh(a);
-            Vector vector = new Vector(sinh, cosh);
+            double sin = Math.Sin(a);
+            double cos = Math.Cos(a);
+            Vector vector = new Vector(sin, cos);
 
             return centerPoint + vector * radius;
         }

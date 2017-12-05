@@ -10,8 +10,18 @@
         mc:Ignorable="d"
         Title="DisconnectionWindow" Height="600" Width="600" IsPenetrate="True" AllowsTransparency="True" WindowStyle="None" Background="#7FFFFFFF" Topmost="True" WindowState="Maximized">
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-        <controls:LoadingRing Padding="50" ActivatedCellFillColor="Blue" DeactivatedCellFillColor="SeaGreen">
-        <StackPanel VerticalAlignment="Center">
+        <controls:LoadingRing CellCount="200" ActivatedCellFillColor="#7F3F3F3F" DeactivatedCellFillColor="#7FFFFFFF" OuterRadius="150" InnerRadius="125" LoadingRingStyle="Whirling">
+            <controls:LoadingRing.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard RepeatBehavior="Forever">
+                            <DoubleAnimation Duration="0:0:5" From="0" To="1" Storyboard.TargetProperty="ProgressValue"></DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </controls:LoadingRing.Triggers>
+        </controls:LoadingRing>
+        <StackPanel Margin="50" VerticalAlignment="Center">
             <Image Width="180" Height="180" Source="{svg2xaml:SvgImage svgs/disconnect_connection.svg}">
             </Image>
             <Label HorizontalContentAlignment="Center" FontFamily="Segoe UI" Foreground="White" FontSize="36" Content="DISCONNECTION"/>
@@ -31,8 +41,7 @@
                     </BeginStoryboard>
                 </EventTrigger>
             </StackPanel.Triggers>
-            </StackPanel>
-        </controls:LoadingRing>
+        </StackPanel>
         <taskbarnotification:TaskbarIcon x:Name="tskbIcon">
             <taskbarnotification:TaskbarIcon.ContextMenu>
                 <ContextMenu>

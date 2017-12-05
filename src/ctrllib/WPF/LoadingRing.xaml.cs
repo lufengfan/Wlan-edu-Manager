@@ -1,41 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WPF
 {
-    /// <summary>
-    /// LoadingRing.xaml 的交互逻辑
-    /// </summary>
-    public partial class LoadingRing : UserControl
+    partial class LoadingRing
     {
-        private bool LoadingRing_fInitialize = false;
-        protected override void OnContentChanged(object oldContent, object newContent)
+        private Grid grid;
+        private ContentControl contentControl;
+        private Canvas canvas;
+
+        private void InitializeComponent()
         {
-            if (this.LoadingRing_fInitialize)
-                this.contentControl.Content = newContent;
-            else
+            this.grid = new Grid();
+            this.contentControl = new ContentControl();
+            this.canvas = new Canvas();
+            this.canvas.SizeChanged += this.canvas_SizeChanged;
+
+            this.grid.Children.Add(this.contentControl);
+            this.grid.Children.Add(this.canvas);
+            this.Content = this.grid;
+        }
+
+        private void canvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Size size = e.NewSize;
+            foreach (var cell in this.cells)
             {
-                base.OnContentChanged(oldContent, newContent);
-                this.LoadingRing_fInitialize = true;
+                Rect bounds = cell.DefiningGeometryBounds;
+                double left = size.Width / 2 + bounds.Left;
+                double top = size.Height / 2 + bounds.Top;
+                Canvas.SetLeft(cell, left);
+                Canvas.SetTop(cell, top);
             }
         }
 
-        public LoadingRing()
+        private void setCellFillColor(int index, Color color)
         {
-            InitializeComponent();
-
-            this.CellCount = 100;
+            LoadingRingCell cell = this.cells[index];
+            if (!(cell.Fill is SolidColorBrush brush && brush.Color == color))
+                cell.Fill = new SolidColorBrush(color);
         }
     }
 }
