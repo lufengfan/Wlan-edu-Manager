@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Title="DisconnectionWindow" Height="600" Width="600" IsPenetrate="True" AllowsTransparency="True" WindowStyle="None" Background="#7FFFFFFF" Topmost="True" WindowState="Maximized">
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-        <controls:LoadingRing CellCount="200" ActivatedCellFillColor="#7F3F3F3F" DeactivatedCellFillColor="#7FFFFFFF" OuterRadius="150" InnerRadius="125" LoadingRingStyle="Whirling">
+        <controls:LoadingRing CellCount="200" ActivatedCellFillColor="#7F3F3F3F" DeactivatedCellFillColor="#7FFFFFFF" OuterRadius="125" InnerRadius="100" LoadingRingStyle="Whirling">
             <controls:LoadingRing.Triggers>
                 <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                     <BeginStoryboard>
@@ -22,7 +22,7 @@
             </controls:LoadingRing.Triggers>
         </controls:LoadingRing>
         <StackPanel Margin="50" VerticalAlignment="Center">
-            <Image Width="180" Height="180" Source="{svg2xaml:SvgImage svgs/disconnect_connection.svg}">
+            <Image Width="180" Height="180" Source="{svg2xaml:SvgImage svgs/connect_connectionstate.svg}">
             </Image>
             <Label HorizontalContentAlignment="Center" FontFamily="Segoe UI" Foreground="White" FontSize="36" Content="DISCONNECTION"/>
             <Label HorizontalContentAlignment="Center" FontFamily="Myriad Arabic" Foreground="White" FontSize="36" FontWeight="Bold" Content="NETWORK FAIL">

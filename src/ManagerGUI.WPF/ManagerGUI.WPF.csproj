@@ -84,6 +84,7 @@
     <Compile Include="DisconnectionWindow.logic.cs">
       <DependentUpon>DisconnectionWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DisconnectionWindow.properties.cs" />
     <Compile Include="DisconnectionWindow.xaml.cs">
       <DependentUpon>DisconnectionWindow.xaml</DependentUpon>
     </Compile>
@@ -135,9 +136,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="svgs\disconnect_connection.svg">
+    <Resource Include="svgs\disconnect_connectionstate.svg">
       <SubType>Designer</SubType>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="svgs\connect_connectionstate.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
