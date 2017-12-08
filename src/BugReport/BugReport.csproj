@@ -34,6 +34,9 @@
     <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommandLineInfo.Core">
+      <HintPath>..\..\static\CommandLineInfo.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -46,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandLine\Console.cs" />
+    <Compile Include="CommandLine\FileOption.cs" />
     <Compile Include="MainWin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +91,10 @@
     <PostBuildEvent>if not exist "$(SolutionDir)..\bin\" (md "$(SolutionDir)..\bin\")
 
 copy "$(TargetPath)" "$(SolutionDir)..\bin\"
-copy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)..\bin\"</PostBuildEvent>
+copy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)..\bin\"
+
+if not exist "$(SolutionDir)..\bin\CommandLineInfo.Core.dll" (
+  copy "$(TargetDir)CommandLineInfo.Core.*" "$(SolutionDir)..\bin\"
+)</PostBuildEvent>
   </PropertyGroup>
 </Project>

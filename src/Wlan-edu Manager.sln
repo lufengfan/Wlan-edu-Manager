@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ctrllib", "ctrllib\ctrllib.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerGUI.WinForm", "ManagerGUI.WinForm\ManagerGUI.WinForm.csproj", "{E790653F-EC20-42B6-AB62-5DAE28FE50D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountCertificate", "AccountCertificate\AccountCertificate.csproj", "{E5ACED0A-1E95-44E3-9CA7-4E2108206F9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{E790653F-EC20-42B6-AB62-5DAE28FE50D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E790653F-EC20-42B6-AB62-5DAE28FE50D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E790653F-EC20-42B6-AB62-5DAE28FE50D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5ACED0A-1E95-44E3-9CA7-4E2108206F9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5ACED0A-1E95-44E3-9CA7-4E2108206F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5ACED0A-1E95-44E3-9CA7-4E2108206F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5ACED0A-1E95-44E3-9CA7-4E2108206F9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,5 +74,6 @@ Global
 		{2314D47B-1DD3-42F7-802B-E88426AA6A04} = {1FE2E626-1C0A-44CF-B7F2-9807899DC9E6}
 		{5F62ED31-D8AE-40AE-9BB9-318DC935F6F2} = {1FE2E626-1C0A-44CF-B7F2-9807899DC9E6}
 		{E790653F-EC20-42B6-AB62-5DAE28FE50D8} = {1FE2E626-1C0A-44CF-B7F2-9807899DC9E6}
+		{E5ACED0A-1E95-44E3-9CA7-4E2108206F9B} = {3C35A3ED-E401-4A17-94D0-78F23C00EDFE}
 	EndGlobalSection
 EndGlobal

@@ -59,8 +59,11 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HtmlAgilityPack, Version=1.6.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.6.5\lib\Net20\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="CommandLineInfo.Core">
+      <HintPath>..\..\static\CommandLineInfo.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.6.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.6.6\lib\Net20\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -70,12 +73,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandLine\Console.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />
     <None Include="packages.config" />
+    <Compile Include="Program.errorhandling.cs" />
     <None Include="PublicKey.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +101,10 @@
     <PostBuildEvent>if not exist "$(SolutionDir)..\bin\" (md "$(SolutionDir)..\bin\")
 
 copy "$(TargetPath)" "$(SolutionDir)..\bin\"
-copy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)..\bin\"</PostBuildEvent>
+copy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)..\bin\"
+
+if not exist "$(SolutionDir)..\bin\CommandLineInfo.Core.dll" (
+  copy "$(TargetDir)CommandLineInfo.Core.*" "$(SolutionDir)..\bin\"
+)</PostBuildEvent>
   </PropertyGroup>
 </Project>

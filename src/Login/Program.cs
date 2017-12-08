@@ -13,17 +13,32 @@ using static SamLu.Tools.Wlan_edu_Manager.Wlan_eduManager;
 
 namespace SamLu.Tools.Wlan_edu_Manager.Login
 {
-    class Program
+    internal sealed partial class Program
     {
         public const string SSID_Wlan_edu = "Wlan-edu";
         
-        public static bool UserNameMask { get; set; } = false;
+        public bool UserNameMask { get; set; } = true;
 
-        const string userName = "13735536357", userPwd = "yh89e8w9"; const bool isAutoLogin = false, cancelAutoLogin = false;
-        //const string userName = "15957182175", userPwd = "avtPEbFD"; const bool isAutoLogin = false, cancelAutoLogin = false;
-
-        static void Main(string[] args)
+        public string MaskedUserName
         {
+            get
+            {
+                if (this.UserNameMask)
+                    return Regex.Replace(this.userName, @"(?<=^\d\d\d)(\d*?)(?=\d\d\d\d$)", (match => string.Empty.PadRight(match.Length, '*')));
+                else return this.userName;
+            }
+        }
+
+        private string userName, userPwd;
+        private bool isAutoLogin, cancelAutoLogin;
+
+        internal void Run(string userName, string userPwd, bool isAutoLogin, bool cancelAutoLogin)
+        {
+            this.userName = userName;
+            this.userPwd = userPwd;
+            this.isAutoLogin = isAutoLogin;
+            this.cancelAutoLogin = cancelAutoLogin;
+
             WifiWatcher.GetNativeWifi(out WIFISSID currentSsid, out WIFISSID[] ssids);
             if (currentSsid == null || currentSsid.SSID != SSID_Wlan_edu)
                 throw new Wlan_eduNotConnectedException();
@@ -56,14 +71,14 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login
             ;
 
             Wlan_eduManager manager = new Wlan_eduManager(wlanAcName, wlanUserIp, url, encoding);
-            while (manager.NextPage(manager_ChangePage, manager_callback)) ;
+            while (manager.NextPage(this.manager_ChangePage, this.manager_callback)) ;
         }
 
-        private static IManagerPage manager_ChangePage(IManagerPage page, Wlan_eduManager.CancelArgs e)
+        private IManagerPage manager_ChangePage(IManagerPage page, Wlan_eduManager.CancelArgs e)
         {
             if (page is ILoginInfoPage)
             {
-                return ((ILoginInfoPage)page).Login(userName, userPwd, isAutoLogin);
+                return ((ILoginInfoPage)page).Login(this.userName, this.userPwd, this.isAutoLogin);
             }
             else if (page is ILoginForcedPage)
             {
@@ -90,16 +105,12 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login
             {
                 using (var timer = new System.Timers.Timer() { Enabled = false, Interval = 1000 })
                 {
-                    string _userName;
-                    if (Program.UserNameMask)
-                        _userName = Regex.Replace(userName, @"(?<=^\d\d\d)(\d*?)(?=\d\d\d\d$)", (match => string.Empty.PadRight(match.Length, '*')));
-                    else
-                        _userName = userName;
+                    string maskedUserName = this.MaskedUserName;
                     timer.Elapsed += (sender, _e) =>
                     {
                         Console.Clear();
                         ConsoleForeColoredWrite(ConsoleColor.White, "尊敬的用户：");
-                        ConsoleForeColoredWrite(ConsoleColor.Blue, _userName);
+                        ConsoleForeColoredWrite(ConsoleColor.Blue, maskedUserName);
                         ConsoleForeColoredWriteLine(ConsoleColor.White, "，您已登录成功");
                         Console.WriteLine();
                         ConsoleForeColoredWriteLine(ConsoleColor.Gray, "上网过程中不要关闭该窗口。如需下线，请按 Esc 键。");
@@ -135,7 +146,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login
                             Console.WriteLine();
                             if (ConsoleBinaryQuestion("请确认下线！"))
                             {
-                                return ((ILoginSucceededPage)page).Logout(userName, cancelAutoLogin);
+                                return ((ILoginSucceededPage)page).Logout(this.userName, this.cancelAutoLogin);
                             }
                             else
                             {
@@ -159,7 +170,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login
                 }
                 else
                 {
-                    return ((ILogoutSucceededPage)page).Login(userName, userPwd, isAutoLogin);
+                    return ((ILogoutSucceededPage)page).Login(this.userName, this.userPwd, this.isAutoLogin);
                 }
             }
             else
@@ -171,12 +182,12 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login
             }
         }
 
-        private static void manager_callback(IManagerPage page, CancelArgs e)
+        private void manager_callback(IManagerPage page, CancelArgs e)
         {
             if (page is ILogoutSucceededPage)
             {
                 Console.Clear();
-                e.Cancel = !ConsoleBinaryQuestion($"是否重新登录 {userName} ？");
+                e.Cancel = !ConsoleBinaryQuestion($"是否重新登录 {this.userName} ？");
             }
         }
         

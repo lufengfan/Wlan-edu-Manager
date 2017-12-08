@@ -1,0 +1,306 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CommandLineInfo.Core</name>
+    </assembly>
+    <members>
+        <member name="T:CommandLineInfo.Core.ComponentModel1.BaseOption">
+            <summary>
+            This abstract base class represents a command line option
+            </summary>
+        </member>
+        <member name="P:CommandLineInfo.Core.ComponentModel1.BaseOption.Name">
+            <summary>
+            This read-only property returns the option name
+            </summary>
+        </member>
+        <member name="P:CommandLineInfo.Core.ComponentModel1.BaseOption.Description">
+            <summary>
+            This read-only property returns the option description
+            </summary>
+        </member>
+        <member name="P:CommandLineInfo.Core.ComponentModel1.BaseOption.RequiredMessage">
+            <summary>
+            This is used to get or set a message to display if the option is missing
+            </summary>
+            <remarks>The default is null and the parameter is optional.  If set to a non-null, non-empty string
+            value, the parameter is required.</remarks>
+        </member>
+        <member name="P:CommandLineInfo.Core.ComponentModel1.BaseOption.Value">
+            <summary>
+            This property is used to get or set the option value
+            </summary>
+            <remarks>As written, the value can only be set when initially parsed</remarks>
+            <exception cref="T:System.InvalidOperationException">This is thrown if an attempt is made to retrieve the
+            value before it has been set or if an attempt is made to set the value twice.</exception>
+        </member>
+        <member name="P:CommandLineInfo.Core.ComponentModel1.BaseOption.IsPresent">
+            <summary>
+            This read-only property is used to determine whether or not the option value was present on the
+            command line.
+            </summary>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.BaseOption.#ctor(System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">The option name</param>
+            <param name="description">The option description</param>
+            <exception cref="T:System.ArgumentException">This is thrown if the <paramref name="name" /> parameter is null
+            or empty or contains non-alphabetic characters.</exception>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.BaseOption.ParseArgument(System.String)">
+            <summary>
+            This method is overridden to parse the option arguments, if any
+            </summary>
+            <param name="args">The arguments to parse</param>
+            <returns>A <see cref="T:CommandLineInfo.Core.ComponentModel1.ParseResult" /> value to indicate the success or failure of the operation</returns>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.BaseOption.WriteTemplate(System.IO.TextWriter)">
+            <summary>
+            This method is overridden to show the command line syntax for the option
+            </summary>
+            <param name="writer">The <see cref="T:System.IO.TextWriter" /> to which the syntax string is written</param>
+        </member>
+        <member name="T:CommandLineInfo.Core.ComponentModel1.BooleanOption">
+            <summary>
+            This defines a Boolean option
+            </summary>
+            <remarks>A Boolean option is one that has a name followed by a '+' for true or a '-' for false</remarks>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.BooleanOption.#ctor(System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">The Boolean option name</param>
+            <param name="description">The Boolean option description</param>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.BooleanOption.ParseArgument(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.BooleanOption.WriteTemplate(System.IO.TextWriter)">
+            <inheritdoc />
+        </member>
+        <member name="T:CommandLineInfo.Core.ComponentModel1.ListOption">
+            <summary>
+            This defines a list option
+            </summary>
+            <remarks>A a list option is like a <see cref="T:CommandLineInfo.Core.ComponentModel1.StringOption" /> but the value is a comma-separated
+            list of one or more values.</remarks>
+        </member>
+        <member name="P:CommandLineInfo.Core.ComponentModel1.ListOption.Value">
+            <summary>
+            This is overridden to return the value as a string array
+            </summary>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.ListOption.#ctor(System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">The list option name</param>
+            <param name="description">The list option description</param>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.ListOption.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">The list option name</param>
+            <param name="description">The list option description</param>
+            <param name="template">A template to use when showing the command line syntax</param>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.ListOption.ParseArgument(System.String)">
+            <inheritdoc />
+            <remarks>If the option appears multiple times, the values are combined into a single list</remarks>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.ListOption.WriteTemplate(System.IO.TextWriter)">
+            <inheritdoc />
+        </member>
+        <member name="T:CommandLineInfo.Core.ComponentModel1.OptionCollection">
+            <summary>
+            This collection is used to hold a set of command line option definitions
+            </summary>
+        </member>
+        <member name="P:CommandLineInfo.Core.ComponentModel1.OptionCollection.Item(System.String)">
+            <summary>
+            This read-only property can be used to retrieve an option by name
+            </summary>
+            <param name="name">The name of the option to retrieve</param>
+            <returns></returns>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.OptionCollection.InsertItem(System.Int32,CommandLineInfo.Core.ComponentModel1.BaseOption)">
+            <inheritdoc />
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.OptionCollection.ClearItems">
+            <inheritdoc />
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.OptionCollection.RemoveItem(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.OptionCollection.SetItem(System.Int32,CommandLineInfo.Core.ComponentModel1.BaseOption)">
+            <inheritdoc />
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.OptionCollection.ParseArguments(System.String[])">
+            <summary>
+            Parse an array of command line option strings into command line option instances
+            </summary>
+            <param name="args">The array of options to parse</param>
+            <returns>The results of parsing the command line option strings</returns>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.OptionCollection.WriteOptionSummary(System.IO.TextWriter)">
+            <summary>
+            This is used to write out a summary of the options
+            </summary>
+            <param name="writer">The <see cref="T:System.IO.TextWriter" /> to which the summary is written</param>
+            <exception cref="T:System.ArgumentNullException">This is thrown if the <paramref name="writer" /> parameter
+            is null.</exception>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.OptionCollection.ParseArguments(System.String[],CommandLineInfo.Core.ComponentModel1.ParseArgumentsResult)">
+            <summary>
+            This is used to parse the command line options and return the results
+            </summary>
+            <param name="args">The array of option strings to parse</param>
+            <param name="results">The results of the parsing operation</param>
+        </member>
+        <member name="T:CommandLineInfo.Core.ComponentModel1.ParseArgumentsResult">
+            <summary>
+            This is used to hold the results of parsing a set of command line option strings
+            </summary>
+        </member>
+        <member name="P:CommandLineInfo.Core.ComponentModel1.ParseArgumentsResult.Options">
+            <summary>
+            This read-only property is used to get the option collection related to the results
+            </summary>
+        </member>
+        <member name="P:CommandLineInfo.Core.ComponentModel1.ParseArgumentsResult.Success">
+            <summary>
+            This read-only property is used to see if the options were parsed successfully
+            </summary>
+            <value>Returns true if successful, false if not</value>
+        </member>
+        <member name="P:CommandLineInfo.Core.ComponentModel1.ParseArgumentsResult.UnusedArguments">
+            <summary>
+            This read-only property returns a collection of the unused arguments
+            </summary>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.ParseArgumentsResult.#ctor(CommandLineInfo.Core.ComponentModel1.OptionCollection)">
+            <summary>
+            Internal constructor
+            </summary>
+            <param name="options">The option collection related to the results</param>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.ParseArgumentsResult.AddError(System.String,CommandLineInfo.Core.ComponentModel1.ParseResult)">
+            <summary>
+            This is used to add a parsing error
+            </summary>
+            <param name="optionName">The option name</param>
+            <param name="error">The error result</param>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.ParseArgumentsResult.AddNonOption(System.String)">
+            <summary>
+            This is used to add a non-option
+            </summary>
+            <param name="value">The non-option value</param>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.ParseArgumentsResult.WriteParseErrors(System.IO.TextWriter)">
+            <summary>
+            This is used to write out a list of all parsing errors
+            </summary>
+            <param name="writer">The <see cref="T:System.IO.TextWriter" /> to which the summary is written</param>
+        </member>
+        <member name="T:CommandLineInfo.Core.ComponentModel1.ParseResult">
+            <summary>
+            This enumerated type defines the command line option parsing results
+            </summary>
+        </member>
+        <member name="F:CommandLineInfo.Core.ComponentModel1.ParseResult.Success">
+            <summary>Success</summary>
+        </member>
+        <member name="F:CommandLineInfo.Core.ComponentModel1.ParseResult.ArgumentNotAllowed">
+            <summary>Argument not allowed</summary>
+        </member>
+        <member name="F:CommandLineInfo.Core.ComponentModel1.ParseResult.MalformedArgument">
+            <summary>Malformed argument</summary>
+        </member>
+        <member name="F:CommandLineInfo.Core.ComponentModel1.ParseResult.MissingOption">
+            <summary>Missing option</summary>
+        </member>
+        <member name="F:CommandLineInfo.Core.ComponentModel1.ParseResult.UnrecognizedOption">
+            <summary>Unrecognized option</summary>
+        </member>
+        <member name="F:CommandLineInfo.Core.ComponentModel1.ParseResult.MultipleOccurence">
+            <summary>A single-use option appeared multiple times</summary>
+        </member>
+        <member name="T:CommandLineInfo.Core.ComponentModel1.StringOption">
+            <summary>
+            This defines a string option
+            </summary>
+            <remarks>A string option is one that has a name/value pair separated by a colon</remarks>
+        </member>
+        <member name="P:CommandLineInfo.Core.ComponentModel1.StringOption.Template">
+            <summary>
+            This is used to specify the template used when showing the command line syntax
+            </summary>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.StringOption.#ctor(System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">The string option name</param>
+            <param name="description">The string option description</param>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.StringOption.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">The string option name</param>
+            <param name="description">The string option description</param>
+            <param name="template">A template to use when showing the command line syntax</param>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.StringOption.ParseArgument(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.StringOption.WriteTemplate(System.IO.TextWriter)">
+            <inheritdoc />
+        </member>
+        <member name="T:CommandLineInfo.Core.ComponentModel1.SwitchOption">
+            <summary>
+            This defines a switch option
+            </summary>
+            <remarks>A switch option is one that is only represented by its name</remarks>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.SwitchOption.#ctor(System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">The switch option name</param>
+            <param name="description">The switch option description</param>
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.SwitchOption.ParseArgument(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CommandLineInfo.Core.ComponentModel1.SwitchOption.WriteTemplate(System.IO.TextWriter)">
+            <inheritdoc />
+        </member>
+        <member name="T:CommandLineInfo.Core.ComponentModel2.BaseOption">
+            <summary>
+            表示命令行选项的基类。
+            </summary>
+        </member>
+        <member name="P:CommandLineInfo.Core.ComponentModel2.BaseOption.Name">
+            <summary>
+            获取选项的名称。
+            </summary>
+            <value>选项的名称</value>
+        </member>
+        <member name="P:CommandLineInfo.Core.ComponentModel2.BaseOption.Abbreviation">
+            <summary>
+            获取选项的别名。
+            </summary>
+            <value>
+            <para>选项的别名。</para>
+            <para>当选项的别名不存在（默认）时，此属性的值为 <see langword="null"/> 或 <see cref="F:System.String.Empty"/> 。</para>
+            <para>相应的，可以将此属性的值赋值为 <see langword="null"/> 或 <see cref="F:System.String.Empty"/> ，表示选项的别名不存在。</para>
+            </value>
+        </member>
+    </members>
+</doc>
