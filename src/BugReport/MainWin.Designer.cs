@@ -43,8 +43,8 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSend = new System.Windows.Forms.Button();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.tsmiAbortSendBugReport = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiAbortSendBugReport = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl.SuspendLayout();
             this.tabInfo.SuspendLayout();
             this.tabList.SuspendLayout();
@@ -175,11 +175,12 @@
             // 
             // cbRestart
             // 
-            this.cbRestart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbRestart.AutoSize = true;
+            this.cbRestart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbRestart.AutoEllipsis = true;
             this.cbRestart.Location = new System.Drawing.Point(12, 428);
             this.cbRestart.Name = "cbRestart";
-            this.cbRestart.Size = new System.Drawing.Size(110, 21);
+            this.cbRestart.Size = new System.Drawing.Size(248, 21);
             this.cbRestart.TabIndex = 0;
             this.cbRestart.Text = "重新启动 {0} 。";
             this.cbRestart.UseVisualStyleBackColor = true;
@@ -212,18 +213,18 @@
             // 
             this.notifyIcon.ContextMenuStrip = this.contextMenuStrip;
             // 
-            // tsmiAbortSendBugReport
-            // 
-            this.tsmiAbortSendBugReport.Name = "tsmiAbortSendBugReport";
-            this.tsmiAbortSendBugReport.Size = new System.Drawing.Size(188, 22);
-            this.tsmiAbortSendBugReport.Text = "取消发送错误报告(&C)";
-            // 
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiAbortSendBugReport});
             this.contextMenuStrip.Name = "contextMenuStrip";
             this.contextMenuStrip.Size = new System.Drawing.Size(189, 26);
+            // 
+            // tsmiAbortSendBugReport
+            // 
+            this.tsmiAbortSendBugReport.Name = "tsmiAbortSendBugReport";
+            this.tsmiAbortSendBugReport.Size = new System.Drawing.Size(188, 22);
+            this.tsmiAbortSendBugReport.Text = "取消发送错误报告(&C)";
             // 
             // MainWin
             // 
@@ -246,7 +247,6 @@
             this.tabList.PerformLayout();
             this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

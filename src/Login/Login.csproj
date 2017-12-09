@@ -62,9 +62,6 @@
     <Reference Include="CommandLineInfo.Core">
       <HintPath>..\..\static\CommandLineInfo.Core.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.6.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.6.6\lib\Net20\HtmlAgilityPack.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -79,7 +76,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />
-    <None Include="packages.config" />
     <Compile Include="Program.errorhandling.cs" />
     <None Include="PublicKey.snk" />
   </ItemGroup>

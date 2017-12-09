@@ -1,8 +1,11 @@
-﻿using SamLu.Tools.Wlan_edu_Manager.Login.Implementation;
+﻿using HtmlAgilityPack;
+using SamLu.Tools.Wlan_edu_Manager.Login.Implementation;
+using SamLu.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace SamLu.Tools.Wlan_edu_Manager
 {
@@ -29,6 +32,38 @@ namespace SamLu.Tools.Wlan_edu_Manager
                 wlanUserIp = wlanUserIp
             };
             this.page.Initialize();
+        }
+
+        public static Wlan_eduManager CreateManagerFromRedirection()
+        {
+            string url;
+            Encoding encoding = Encoding.UTF8;
+            HtmlDocument document;
+
+            // 通过重定向获取登录地址。
+            url = "http://1.1.1.1/";
+            document = new HtmlDocument();
+            document.Load(HttpRequestUtil.GetHtmlContentStreamReader(url, encoding));
+            string refresh_content = document.DocumentNode.SelectSingleNode(@"html/head/meta[@http-equiv='refresh']")?.GetAttributeValue("content", null);
+            ;
+
+            // 获取登录地址。
+            url = Regex.Match(refresh_content.Split(';')[1], @"url=(?<Url>\S*)").Groups["Url"].Value;
+            var queryArgs =
+                Regex.Matches(
+                    new Uri(url, UriKind.Absolute).Query,
+                    @"(?<=^\?|&)(?<Key>\w+?)=(?<Value>\S*?)(?=&|$)"
+                )
+                .OfType<Match>()
+                .ToDictionary(
+                    (match => match.Groups["Key"].Value.ToLower()),
+                    (match => match.Groups["Value"].Value)
+                );
+            string wlanAcName = queryArgs["wlanacname"];
+            string wlanUserIp = queryArgs["wlanuserip"];
+            ;
+
+            return new Wlan_eduManager(wlanAcName, wlanUserIp, url, encoding);
         }
 
         public bool NextPage(ChangePageHandler changePage, CallbackHandler callback = null)

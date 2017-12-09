@@ -5,13 +5,9 @@ using System.Windows.Forms;
 
 namespace SamLu.Tools.Wlan_edu_Manager.GUI
 {
-    static class Program
+    internal class Program
     {
-        /// <summary>
-        /// 应用程序的主入口点。
-        /// </summary>
-        [STAThread]
-        static void Main()
+        internal void Run(string userName, string userPwd, bool isAutoLogin, bool cancelAutoLogin)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

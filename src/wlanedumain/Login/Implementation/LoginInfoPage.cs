@@ -92,5 +92,10 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
                     throw new InvalidOperationException("无法识别页。");
             }
         }
+
+        public void FetchTemporaryPwd(string userName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

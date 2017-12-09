@@ -37,6 +37,9 @@
     <AssemblyOriginatorKeyFile>PublicKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommandLineInfo.Core">
+      <HintPath>..\..\static\CommandLineInfo.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandLine\Console.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -56,6 +60,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -82,6 +89,20 @@
       <Project>{5f62ed31-d8ae-40ae-9bb9-318dc935f6f2}</Project>
       <Name>ctrllib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\wlanedumain\wlanedumain.csproj">
+      <Project>{39fbcee5-88d6-481f-86b0-c7fd266378c1}</Project>
+      <Name>wlanedumain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist "$(SolutionDir)..\bin\" (md "$(SolutionDir)..\bin\")
+
+copy "$(TargetPath)" "$(SolutionDir)..\bin\"
+copy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)..\bin\"
+
+if not exist "$(SolutionDir)..\bin\CommandLineInfo.Core.dll" (
+  copy "$(TargetDir)CommandLineInfo.Core.*" "$(SolutionDir)..\bin\"
+)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

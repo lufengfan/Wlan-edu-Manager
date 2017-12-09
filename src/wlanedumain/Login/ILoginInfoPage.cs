@@ -25,5 +25,11 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login
             string userPwd,
             bool autoLogin
         );
+
+        /// <summary>
+        /// 发送验证短信，获取临时密码。
+        /// </summary>
+        /// <param name="userName">用户名。</param>
+        void FetchTemporaryPwd(string userName);
     }
 }
