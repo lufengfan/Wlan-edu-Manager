@@ -73,7 +73,7 @@
     <Compile Include="Logout\ILogoutInfoPage.cs" />
     <Compile Include="Logout\ILogoutingPage.cs" />
     <Compile Include="Logout\ILogoutSucceededPage.cs" />
-    <Compile Include="Logout\Implementation\LogoutInfo.cs" />
+    <Compile Include="Logout\LogoutInfo.cs" />
     <Compile Include="Logout\Implementation\LogoutInfoPage.cs" />
     <Compile Include="Logout\Implementation\LogoutingPage.cs" />
     <Compile Include="Logout\Implementation\LogoutSucceededPage.cs" />

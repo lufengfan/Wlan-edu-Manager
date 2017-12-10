@@ -9,8 +9,21 @@ using System.Windows.Forms;
 
 namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
 {
+    [ToolboxItem(true)]
     public partial class LogoutInfoPagePanel : ManagerPagePanel
     {
+        [DefaultValue(ManagerPageType.LogoutInfo)]
+        public override ManagerPageType ManagerPageType
+        {
+            get => base.ManagerPageType;
+            set => base.ManagerPageType = value;
+        }
+
+        [Browsable(false)]
+        public virtual string UserName => this.UserNameTextBox?.Text ?? string.Empty;
+        [Browsable(false)]
+        public virtual bool CancelAutoLogin => this.CancelAutoLoginCheckBox?.Checked ?? false;
+
         [DefaultValue(null)]
         [Category("功能")]
         [Description("设置填写用户名的文本框。")]
@@ -45,11 +58,14 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
 
         private void LogoutButton_Click(object sender, EventArgs e)
         {
-            this.Logout.Invoke(this, new LogoutEventArgs(
-                this.UserNameTextBox?.Text,
-                this.CancelAutoLoginCheckBox?.Checked ?? true
+            this.OnLogout(new LogoutEventArgs(
+                this.UserName,
+                this.CancelAutoLogin
             ));
         }
+
+        protected virtual void OnLogout(LogoutEventArgs e) =>
+            this.Logout?.Invoke(this, e);
 
         [Description("表示登出的事件。")]
         public event LogoutEventHandler Logout;

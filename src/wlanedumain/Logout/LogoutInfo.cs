@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SamLu.Tools.Wlan_edu_Manager.Logout.Implementation
+namespace SamLu.Tools.Wlan_edu_Manager.Logout
 {
     [Serializable]
     public class LogoutInfo

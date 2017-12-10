@@ -12,7 +12,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
     [ToolboxItem(false)]
     public partial class ManagerPagePanel : Panel
     {
-        public ManagerPageType ManagerPageType { get; set; }
+        public virtual ManagerPageType ManagerPageType { get; set; }
 
         protected ManagerPagePanel()
         {

@@ -114,6 +114,9 @@
     <EmbeddedResource Include="WinForm\LoginInfoPagePanel.resx">
       <DependentUpon>LoginInfoPagePanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\LogoutInfoPagePanel.resx">
+      <DependentUpon>LogoutInfoPagePanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinForm\ManagerPagePanel.resx">
       <DependentUpon>ManagerPagePanel.cs</DependentUpon>
     </EmbeddedResource>

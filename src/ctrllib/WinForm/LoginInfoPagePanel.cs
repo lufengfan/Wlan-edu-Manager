@@ -12,6 +12,22 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
     [ToolboxItem(true)]
     public partial class LoginInfoPagePanel : ManagerPagePanel
     {
+        [DefaultValue(ManagerPageType.LoginInfo)]
+        public override ManagerPageType ManagerPageType
+        {
+            get => base.ManagerPageType;
+            set => base.ManagerPageType = value;
+        }
+
+        [Browsable(false)]
+        public virtual string UserName => this.UserNameTextBox?.Text ?? string.Empty;
+        [Browsable(false)]
+        public virtual string UserPwd => this.UserPwdTextBox?.Text ?? string.Empty;
+        [Browsable(false)]
+        public virtual bool RememberMe => this.RememberMeCheckBox?.Checked ?? false;
+        [Browsable(false)]
+        public virtual bool AutoLogin => this.AutoLoginCheckBox?.Checked ?? false;
+        
         [DefaultValue(null)]
         [Category("功能")]
         [Description("设置填写用户名的文本框。")]
@@ -22,10 +38,32 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
         [Description("设置填写用户密码的文本框。")]
         public TextBox UserPwdTextBox { get; set; }
 
+        private Button fetchTemporaryPwdButton;
         [DefaultValue(null)]
         [Category("功能")]
         [Description("设置获取临时密码的按钮。")]
-        public Button FetchTemporaryPwdButton { get; set; }
+        public Button FetchTemporaryPwdButton
+        {
+            get => this.fetchTemporaryPwdButton;
+            set
+            {
+                if (this.fetchTemporaryPwdButton != null)
+                {
+                    this.fetchTemporaryPwdButton.Click -= this.FetchTemporaryPwdButton_Click;
+                }
+
+                this.fetchTemporaryPwdButton = value;
+                if (value != null)
+                {
+                    value.Click += this.FetchTemporaryPwdButton_Click;
+                }
+            }
+        }
+
+        private void FetchTemporaryPwdButton_Click(object sender, EventArgs e)
+        {
+            this.OnFetchTemporaryPwd(new FetchTemporaryPwdEventArgs(this.UserName));
+        }
 
         [DefaultValue(null)]
         [Category("功能")]
@@ -61,11 +99,11 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
 
         private void LoginButton_Click(object sender, EventArgs e)
         {
-            this.Login?.Invoke(this, new LoginEventArgs(
-                this.UserNameTextBox?.Text,
-                this.UserPwdTextBox?.Text,
-                this.RememberMeCheckBox?.Checked ?? false,
-                this.AutoLoginCheckBox?.Checked ?? false
+            this.OnLogin(new LoginEventArgs(
+                this.UserName,
+                this.UserPwd,
+                this.RememberMe,
+                this.AutoLogin
             ));
         }
         
@@ -74,6 +112,12 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
 
         [Description("表示登录的事件。")]
         public event LoginEventHandler Login;
+
+        protected virtual void OnFetchTemporaryPwd(FetchTemporaryPwdEventArgs e) =>
+            this.FetchTemporaryPwd?.Invoke(this, e);
+
+        protected virtual void OnLogin(LoginEventArgs e) =>
+            this.Login?.Invoke(this, e);
 
         public LoginInfoPagePanel() : base()
         {

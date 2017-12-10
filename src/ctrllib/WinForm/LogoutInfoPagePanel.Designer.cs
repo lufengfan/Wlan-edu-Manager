@@ -28,7 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // LogoutInfoPagePanel
+            // 
+            this.ManagerPageType = SamLu.Tools.Wlan_edu_Manager.ManagerPageType.LogoutInfo;
+            this.ResumeLayout(false);
+
         }
 
         #endregion

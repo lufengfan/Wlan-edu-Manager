@@ -4,12 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
 {
     public class LoginInfoPage : ManagerPage, ILoginInfoPage
     {
         protected internal string loginActionAddress;
+        protected internal string fetchTemporaryPwdAddress;
 
         /// <summary>
         /// 初始化 <see cref="LoginInfoPage"/> 类的新实例。
@@ -35,7 +37,38 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
         /// </summary>
         public override void Initialize()
         {
+            IDictionary<string, object> scriptVariants =
+                Regex.Matches(
+                    this.document.DocumentNode
+                        .SelectSingleNode(@"html/head/script")
+                        ?.InnerText,
+                    @"var\s+(?<VariantName>\w+?)\s+=\s+(?<VariantValue>(\s|\S)+?);"
+                )
+                .OfType<Match>()
+                .ToDictionary<Match, string, object>(
+                    (match => match.Groups["VariantName"].Value),
+                    (match =>
+                    {
+                        string value = match.Groups["VariantValue"].Value;
+                        if (Regex.IsMatch(value, @"^(-)?\s*\d+$"))
+                        {
+                            return int.Parse(value);
+                        }
+                        else if (Regex.IsMatch(value, @"^\d*\.\d+$"))
+                        {
+                            return double.Parse(value);
+                        }
+                        else if (Regex.IsMatch(value, @"^""[^""]*""$"))
+                        {
+                            return value.Trim('"');
+                        }
+                        else
+                            throw new NotSupportedException();
+                    })
+                );
+            
             this.loginActionAddress = this.document.GetElementbyId("Wlan_Login")?.GetAttributeValue("action", null);
+            this.fetchTemporaryPwdAddress = $"{scriptVariants["httpbase"]}{scriptVariants["ctxPath"]}/portalApplyPwd.wlan";
         }
 
         /// <summary>
@@ -95,7 +128,25 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
 
         public void FetchTemporaryPwd(string userName)
         {
-            throw new NotImplementedException();
+            var query = new
+            {
+                mobile = userName,
+                wlanAcName = this.wlanAcName,
+                wlanUserIp = this.wlanUserIp
+            };
+            string dataStr = query.SerializeData();
+
+            string response = this.encoding.GetString(
+                HttpRequestUtil.Post(
+                    this.fetchTemporaryPwdAddress,
+                    this.encoding.GetBytes(dataStr)
+                )
+            );
+
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(response);
+
+            ;
         }
     }
 }

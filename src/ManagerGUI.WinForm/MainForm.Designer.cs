@@ -37,13 +37,14 @@
             this.cbRememberMe = new System.Windows.Forms.CheckBox();
             this.btnFetchTemproraryPwd = new System.Windows.Forms.Button();
             this.lblPwdImg = new System.Windows.Forms.Label();
+            this.ilPwdBoxOption = new System.Windows.Forms.ImageList(this.components);
             this.txtUserPwd = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.InfoTextBox();
             this.txtUserName = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.InfoTextBox();
             this.lblInfo = new System.Windows.Forms.Label();
             this.statusBar = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.StatusBar();
-            this.ilPwdBoxOption = new System.Windows.Forms.ImageList(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.logoutInfoPagePanel = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.LogoutInfoPagePanel();
             this.loginInfoPagePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
@@ -66,10 +67,9 @@
             this.loginInfoPagePanel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.loginInfoPagePanel.Location = new System.Drawing.Point(0, 0);
             this.loginInfoPagePanel.LoginButton = this.btnLogin;
-            this.loginInfoPagePanel.ManagerPageType = SamLu.Tools.Wlan_edu_Manager.ManagerPageType.LoginInfo;
             this.loginInfoPagePanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.loginInfoPagePanel.Name = "loginInfoPagePanel";
-            this.loginInfoPagePanel.Size = new System.Drawing.Size(464, 361);
+            this.loginInfoPagePanel.Size = new System.Drawing.Size(464, 336);
             this.loginInfoPagePanel.TabIndex = 0;
             this.loginInfoPagePanel.UserNameTextBox = this.txtUserName;
             this.loginInfoPagePanel.UserPwdTextBox = this.txtUserPwd;
@@ -146,6 +146,7 @@
             this.btnFetchTemproraryPwd.TabIndex = 3;
             this.btnFetchTemproraryPwd.Text = "获取临时密码";
             this.btnFetchTemproraryPwd.UseVisualStyleBackColor = true;
+            this.btnFetchTemproraryPwd.Click += new System.EventHandler(this.btnFetchTemproraryPwd_Click);
             // 
             // lblPwdImg
             // 
@@ -161,11 +162,17 @@
             this.lblPwdImg.MouseHover += new System.EventHandler(this.lblPwdImg_MouseHover);
             this.lblPwdImg.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lblPwdImg_MouseUp);
             // 
+            // ilPwdBoxOption
+            // 
+            this.ilPwdBoxOption.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilPwdBoxOption.ImageStream")));
+            this.ilPwdBoxOption.TransparentColor = System.Drawing.Color.Transparent;
+            this.ilPwdBoxOption.Images.SetKeyName(0, "eye_close.png");
+            this.ilPwdBoxOption.Images.SetKeyName(1, "eye_open.png");
+            // 
             // txtUserPwd
             // 
             this.txtUserPwd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUserPwd.BackColor = System.Drawing.SystemColors.Window;
             this.txtUserPwd.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.txtUserPwd.ForeColor = System.Drawing.SystemColors.WindowText;
             this.errorProvider.SetIconAlignment(this.txtUserPwd, System.Windows.Forms.ErrorIconAlignment.MiddleLeft);
@@ -184,7 +191,6 @@
             // 
             this.txtUserName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUserName.BackColor = System.Drawing.SystemColors.Window;
             this.txtUserName.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.txtUserName.ForeColor = System.Drawing.SystemColors.WindowText;
             this.errorProvider.SetIconAlignment(this.txtUserName, System.Windows.Forms.ErrorIconAlignment.MiddleLeft);
@@ -227,24 +233,27 @@
             this.statusBar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.statusBar.Visible = false;
             // 
-            // ilPwdBoxOption
-            // 
-            this.ilPwdBoxOption.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilPwdBoxOption.ImageStream")));
-            this.ilPwdBoxOption.TransparentColor = System.Drawing.Color.Transparent;
-            this.ilPwdBoxOption.Images.SetKeyName(0, "eye_close.png");
-            this.ilPwdBoxOption.Images.SetKeyName(1, "eye_open.png");
-            // 
             // errorProvider
             // 
             this.errorProvider.ContainerControl = this;
+            // 
+            // logoutInfoPagePanel
+            // 
+            this.logoutInfoPagePanel.BackColor = System.Drawing.Color.White;
+            this.logoutInfoPagePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logoutInfoPagePanel.Location = new System.Drawing.Point(0, 0);
+            this.logoutInfoPagePanel.Name = "logoutInfoPagePanel";
+            this.logoutInfoPagePanel.Size = new System.Drawing.Size(464, 336);
+            this.logoutInfoPagePanel.TabIndex = 7;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(464, 361);
-            this.Controls.Add(this.statusBar);
+            this.Controls.Add(this.logoutInfoPagePanel);
             this.Controls.Add(this.loginInfoPagePanel);
+            this.Controls.Add(this.statusBar);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximumSize = new System.Drawing.Size(2000, 400);
@@ -274,5 +283,6 @@
         private System.Windows.Forms.ImageList ilPwdBoxOption;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private Controls.WinForm.LogoutInfoPagePanel logoutInfoPagePanel;
     }
 }

@@ -120,8 +120,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
                     base.UseSystemPasswordChar = this.useSystemPasswordChar;
             }
         }
-
-
+        
         [DefaultValue("")]
         [Description("设置编辑控件的文本内容。")]
         public new virtual string Text
@@ -143,7 +142,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
             }
         }
 
-        private bool isInfoShown = false;
+        private bool isInfoShown = true;
         public bool IsInfoShown
         {
             get => this.isInfoShown;
@@ -176,14 +175,14 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
 
         public InfoTextBox() : base()
         {
+            this.IsInfoShown = true;
+
             this.foreColor = base.ForeColor;
             this.backColor = base.BackColor;
 
             this.passwordChar = base.PasswordChar;
             this.useSystemPasswordChar = base.UseSystemPasswordChar;
             
-            this.IsInfoShown = true;
-
             this.Enter += this.InfoTextBox_Enter;
             this.Leave += this.InfoTextBox_Leave;
         }
