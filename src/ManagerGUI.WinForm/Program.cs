@@ -22,6 +22,8 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                 typeof(Program).Assembly.Location,
                 exception: (Exception)e.ExceptionObject
             );
+
+            Application.Exit();
         }
 
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
@@ -32,13 +34,21 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                 typeof(Program).Assembly.Location,
                 exception: e.Exception
             );
+
+            Application.Exit();
         }
 
         internal void Run(string userName, string userPwd, bool isAutoLogin, bool cancelAutoLogin)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new MainForm()
+#if true
+            {
+                manager = Wlan_eduManager.CreateManagerFromRedirection()
+            }
+#endif
+            );
         }
     }
 }

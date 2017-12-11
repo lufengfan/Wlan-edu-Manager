@@ -68,7 +68,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
                 );
             
             this.loginActionAddress = this.document.GetElementbyId("Wlan_Login")?.GetAttributeValue("action", null);
-            this.fetchTemporaryPwdAddress = $"{scriptVariants["httpbase"]}{scriptVariants["ctxPath"]}/portalApplyPwd.wlan";
+            this.fetchTemporaryPwdAddress = $"{scriptVariants["httpBase"]}{scriptVariants["ctxPath"]}/portalApplyPwd.wlan";
         }
 
         /// <summary>

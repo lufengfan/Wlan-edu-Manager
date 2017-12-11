@@ -78,6 +78,12 @@
     <Compile Include="WinForm\LoginInfoPagePanel.Designer.cs">
       <DependentUpon>LoginInfoPagePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinForm\LoginSucceededPagePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinForm\LoginSucceededPagePanel.Designer.cs">
+      <DependentUpon>LoginSucceededPagePanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinForm\LogoutInfoPagePanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -113,6 +119,9 @@
   <ItemGroup>
     <EmbeddedResource Include="WinForm\LoginInfoPagePanel.resx">
       <DependentUpon>LoginInfoPagePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\LoginSucceededPagePanel.resx">
+      <DependentUpon>LoginSucceededPagePanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinForm\LogoutInfoPagePanel.resx">
       <DependentUpon>LogoutInfoPagePanel.cs</DependentUpon>

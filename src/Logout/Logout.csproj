@@ -60,6 +60,10 @@
     <None Include="PublicKey.snk" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BugReport\BugReport.csproj">
+      <Project>{49e012ed-a8a5-405d-913d-14914e19f26d}</Project>
+      <Name>BugReport</Name>
+    </ProjectReference>
     <ProjectReference Include="..\wlanedumain\wlanedumain.csproj">
       <Project>{39fbcee5-88d6-481f-86b0-c7fd266378c1}</Project>
       <Name>wlanedumain</Name>

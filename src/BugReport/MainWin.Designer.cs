@@ -172,6 +172,7 @@
             this.lbReports.Name = "lbReports";
             this.lbReports.Size = new System.Drawing.Size(390, 89);
             this.lbReports.TabIndex = 2;
+            this.lbReports.DoubleClick += new System.EventHandler(this.lbReports_DoubleClick);
             // 
             // cbRestart
             // 
@@ -240,6 +241,7 @@
             this.MinimumSize = new System.Drawing.Size(400, 500);
             this.Name = "MainWin";
             this.Text = "错误报告 - Wlan-edu Manager";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWin_FormClosed);
             this.tabControl.ResumeLayout(false);
             this.tabInfo.ResumeLayout(false);
             this.tabInfo.PerformLayout();

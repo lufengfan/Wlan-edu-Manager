@@ -24,14 +24,14 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
         public MainForm()
         {
             InitializeComponent();
+            this.Icon = Properties.Resources.manager_ico;
+            this.notifyIcon.Icon = Properties.Resources.manager_ico;
             
-            IManagerPagePanelContainer container = this;
-            container.Add(this.loginInfoPagePanel);
-            container.Add(this.logoutInfoPagePanel);
+            this.common_Initialize();
 
 #if DEBUG
-            ((InfoTextBox)this.loginInfoPagePanel.UserNameTextBox).Text = "13735536357";
-            ((InfoTextBox)this.loginInfoPagePanel.UserPwdTextBox).Text = "yh89e8w9";
+            this.loginInfo_txtUserName.Text = "13735536357";
+            this.txtUserPwd.Text = "yh89e8w9";
             this.btnLogin.Enabled = true;
 #endif
 
@@ -41,6 +41,9 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
         public void Switch(ManagerPagePanel panel)
         {
             if (panel == null) throw new ArgumentNullException(nameof(panel));
+
+            panel.Enabled = true;
+            if (this.CurrentPagePanel == panel) return;
 
             if (this.panels.Contains(panel))
             {
@@ -80,6 +83,8 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
         {
             if (!this.IsSupport(page)) return;
 
+            if (this.CurrentPage == page) return;
+
             ManagerPagePanel panel = this.panels.FirstOrDefault(p => p.ManagerPageType == page);
             if (panel != null && this.panels.Contains(panel))
             {
@@ -88,6 +93,32 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                 this.SwitchInternal(panel);
             }
         }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.notifyIcon.Visible = false;
+        }
+
+        #region 最小化到托盘功能
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_SYSCOMMAND = 0x112;
+            const int SC_CLOSE = 0xF060;
+            const int SC_MINIMIZE = 0xF020;
+            const int SC_MAXIMIZE = 0xF030;
+
+            if (m.Msg == WM_SYSCOMMAND)
+            {
+                if (m.WParam.ToInt32() == SC_MINIMIZE)
+                {
+                    this.ShowInTaskbar = false;
+                    this.Hide();
+                }
+            }
+            
+            base.WndProc(ref m);
+        }
+        #endregion
 
         #region ICollection<ManagerPagePanel> Implementation
         int ICollection<ManagerPagePanel>.Count => throw new NotImplementedException();
@@ -129,5 +160,23 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
             return this.panels.GetEnumerator();
         }
         #endregion
+
+        private void notifyIcon_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            this.ShowInTaskbar = true;
+        }
+
+        private void cmsNotifyIcon_tsmiLogin_Click(object sender, EventArgs e)
+        {
+            this.cmsNotifyIcon_tsmiLogout.Checked = false;
+            this.Switch(this.loginInfoPagePanel);
+        }
+
+        private void cmsNotifyIcon_tsmiLogout_Click(object sender, EventArgs e)
+        {
+            this.cmsNotifyIcon_tsmiLogin.Checked = false;
+            this.Switch(this.logoutInfoPagePanel);
+        }
     }
 }

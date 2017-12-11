@@ -88,7 +88,7 @@ namespace BugReport
             public static implicit operator FILE(string path) =>
                 new FILE(path ?? throw new ArgumentNullException(nameof(path)));
 
-            public static explicit operator string(FILE file) => file.FullName;
+            public static implicit operator string(FILE file) => file.FullName;
         }
 
         private void lbReports_DoubleClick(object sender, EventArgs e)
@@ -102,7 +102,7 @@ namespace BugReport
         private void btnSend_Click(object sender, EventArgs e)
         {
             MailMessage msg = new MailMessage(
-                new MailAddress($"549429518@qq.com", $"{Program.ProductName} Bug Report", Encoding.UTF8),
+                new MailAddress("549429518@qq.com", $"{Program.ProductName} Bug Report", Encoding.UTF8) { },
                 new MailAddress("549429518@qq.com")
             )
             {
@@ -152,8 +152,6 @@ namespace BugReport
                 //MessageBox.Show("错误报告发送失败。");
             }
 
-            this.cleanReports();
-
             this.restart();
         }
 
@@ -183,6 +181,8 @@ namespace BugReport
             else
             {
                 this.notifyIcon.ShowBalloonTip(5000, this.notifyIcon.Text, "错误报告发送成功。", ToolTipIcon.Info);
+
+                this.cleanReports();
             }
         }
 
@@ -210,9 +210,11 @@ namespace BugReport
         {
             foreach (var pair in this.reports)
             {
-                if (!File.Exists(pair.Key.FullName)) continue;
+                if (!File.Exists(pair.Key)) continue;
                 pair.Value.Close();
-                File.Delete(pair.Key.FullName);
+
+                File.SetAttributes(pair.Key, File.GetAttributes(pair.Key) & ~(FileAttributes.Hidden | FileAttributes.ReadOnly));
+                File.Delete(pair.Key);
             }
 
             this.reports.Clear();
@@ -245,12 +247,13 @@ namespace BugReport
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            this.cleanReports();
             this.restart();
 
             this.Close();
         }
-
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        
+        private void MainWin_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.cleanReports();
         }

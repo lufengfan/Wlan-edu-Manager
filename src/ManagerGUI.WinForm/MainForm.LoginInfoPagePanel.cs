@@ -1,5 +1,5 @@
 ﻿using SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm;
-using SamLu.Tools.Wlan_edu_Manager.Login.Implementation;
+using SamLu.Tools.Wlan_edu_Manager.Login;
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
@@ -8,34 +8,17 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
 {
     partial class MainForm
     {
-        private bool txtUserName_ValidationResult = false;
-        private void txtUserName_Validating(object sender, CancelEventArgs e)
+        private void loginInfo_Initialize()
         {
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"^\d{11}$", System.Text.RegularExpressions.RegexOptions.Compiled);
-
-            this.txtUserName_ValidationResult = regex.IsMatch(this.txtUserName.Text);
-            if (this.txtUserName_ValidationResult)
-            {
-                this.errorProvider.Clear();
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(this.txtUserName.Text))
-                    this.errorProvider.SetError(this.txtUserName, "请输入您的用户名。");
-                else
-                    this.errorProvider.SetError(this.txtUserName, "请输入您的11位手机号码。");
-            }
-
-            this.btnLogin.Enabled = this.txtUserName_ValidationResult && this.txtUserPwd_ValidationResult;
+            this.loginInfo_txtUserName.Clear();
+            this.loginInfo_txtUserName.Tag = this.btnLogin;
+            this.txtUserPwd.Clear();
+            this.btnLogin.Enabled = false;
         }
-
-        private bool txtUserPwd_ValidationResult = false;
+        
         private void txtUserPwd_Validating(object sender, CancelEventArgs e)
         {
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"^[^\s~'!\$%\^\*\(\)\+<>=\|\\;:,\?/#@&`""\[\]\{\}\.]+$", System.Text.RegularExpressions.RegexOptions.Compiled);
-
-            this.txtUserPwd_ValidationResult = regex.IsMatch(this.txtUserPwd.Text);
-            if (this.txtUserPwd_ValidationResult)
+            if (this.canAcceptUserPwd(this.txtUserPwd.Text))
             {
                 this.errorProvider.Clear();
             }
@@ -46,8 +29,18 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                 else
                     this.errorProvider.SetError(this.txtUserPwd, "您输入的静态密码中含有非法字符，空格或（~'!$%^*()+<>=|\\;:,?/#@&`\"[]{}.）。");
             }
+        }
 
-            this.btnLogin.Enabled = this.txtUserName_ValidationResult && this.txtUserPwd_ValidationResult;
+        private void txtUserPwd_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                CancelEventArgs _e = new CancelEventArgs();
+                this.txtUserPwd_Validating(sender, _e);
+                this.CausesValidation = _e.Cancel;
+
+                this.ProcessTabKey(true);
+            }
         }
 
         private void lblPwdImg_MouseDown(object sender, MouseEventArgs e)
@@ -94,18 +87,53 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
             );
         }
 
-        private void btnFetchTemproraryPwd_Click(object sender, EventArgs e)
+        private void loginInfoPagePanel_FetchTemporaryPwd(object sender, FetchTemporaryPwdEventArgs e)
         {
-            ((LoginInfoPage)this.manager.CurrentPage).FetchTemporaryPwd(this.loginInfoPagePanel.UserName);
+            ((ILoginInfoPage)this.manager.CurrentPage).FetchTemporaryPwd(e.UserName);
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        private void login(object sender, LoginEventArgs e)
         {
+            if (!this.canAcceptUserInfo()) return;
+
             this.loginInfoPagePanel.Enabled = false;
 
             this.statusBar.StatusBarState = StatusBarState.Information;
             this.statusBar.Text = "正在登录……";
-        }
 
+            this.manager.NextPage(
+                (page, _e) =>
+                {
+                    var nextPage = ((ILoginInfoPage)page).Login(e.UserName, e.UserPwd, e.AutoLogin);
+                    if (nextPage is ILoginForcedPage)
+                    {
+                        if (MessageBox.Show("您好，您当前登入的用户已在线，是否继续操作？", "登入", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                        {
+                            nextPage = ((ILoginForcedPage)nextPage).ForceLogin();
+                            if (nextPage is ILoginingPage)
+                                return nextPage;
+                            else if (nextPage is ILoginFailedPage)
+                            {
+                                MessageBox.Show($"登入认证失败，用户( {e.UserName} )当前处于非正常状态！", "登入", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                                return ((ILoginFailedPage)nextPage).Ignore();
+                            }
+                            else throw new NotSupportedException();
+                        }
+                        else
+                            return ((ILoginForcedPage)nextPage).Cancel();
+                    }
+                    else if (nextPage is ILoginingPage)
+                    {
+                        return ((ILoginingPage)nextPage).Success();
+                    }
+                    else
+                    {
+                        _e.Cancel = true;
+                        return null;
+                    }
+                },
+                this.manager_Callback
+            );
+        }
     }
 }

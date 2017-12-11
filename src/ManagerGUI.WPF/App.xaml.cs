@@ -26,6 +26,8 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                 typeof(App).Assembly.Location,
                 exception: (Exception)e.ExceptionObject
             );
+
+            Application.Current.Shutdown(-1);
         }
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -37,6 +39,8 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                 typeof(App).Assembly.Location,
                 exception: e.Exception
             );
+
+            Application.Current.Shutdown(-1);
         }
     }
 }

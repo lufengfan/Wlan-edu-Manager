@@ -202,5 +202,10 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
                 this.IsInfoShown = true;
             }
         }
+
+        public new void Clear()
+        {
+            this.IsInfoShown = true;
+        }
     }
 }

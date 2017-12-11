@@ -13,6 +13,25 @@ namespace BugReport
         internal static string RestartCmdLine { get; set; }
         internal static string[] ReportFiles { get; set; }
 
+        static Program()
+        {
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            Application.ThreadException += Application_ThreadException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            //MessageBox.Show(e.ExceptionObject?.ToString() ?? string.Empty);
+            Application.Exit();
+        }
+
+        private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            //MessageBox.Show(e.Exception?.ToString() ?? string.Empty);
+            Application.Exit();
+        }
+
         public static void Run()
         {
             try

@@ -39,6 +39,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\manager.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommandLineInfo.Core">
       <HintPath>..\..\static\CommandLineInfo.Core.dll</HintPath>
@@ -55,6 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLine\Console.cs" />
+    <Compile Include="LightLoginSucceededPagePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MainForm.common.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,6 +72,10 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.LoginInfoPagePanel.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.LoginSucceededPagePanel.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +95,10 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.manifest" />
+    <Compile Include="MainFrom.LogoutInfoPagePanel.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -93,6 +111,10 @@
     <None Include="PublicKey.snk" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BugReport\BugReport.csproj">
+      <Project>{49e012ed-a8a5-405d-913d-14914e19f26d}</Project>
+      <Name>BugReport</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ctrllib\ctrllib.csproj">
       <Project>{5f62ed31-d8ae-40ae-9bb9-318dc935f6f2}</Project>
       <Name>ctrllib</Name>
@@ -101,6 +123,30 @@
       <Project>{39fbcee5-88d6-481f-86b0-c7fd266378c1}</Project>
       <Name>wlanedumain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\login.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logout.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\manager.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\login.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\manager.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

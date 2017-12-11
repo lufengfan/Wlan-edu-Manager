@@ -39,14 +39,28 @@
             this.lblPwdImg = new System.Windows.Forms.Label();
             this.ilPwdBoxOption = new System.Windows.Forms.ImageList(this.components);
             this.txtUserPwd = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.InfoTextBox();
-            this.txtUserName = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.InfoTextBox();
-            this.lblInfo = new System.Windows.Forms.Label();
+            this.loginInfo_txtUserName = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.InfoTextBox();
+            this.loginInfo_lblInfo = new System.Windows.Forms.Label();
             this.statusBar = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.StatusBar();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.logoutInfoPagePanel = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.LogoutInfoPagePanel();
+            this.logoutInfo_btnLogout = new System.Windows.Forms.Button();
+            this.logoutInfo_txtUserName = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.InfoTextBox();
+            this.logoutInfo_lblInfo = new System.Windows.Forms.Label();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.cmsNotifyIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmsNotifyIcon_tsmiLogin = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsNotifyIcon_tsmiLogout = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsNotifyIcon_tsmiSeperator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmsNotifyIcon_tsmiSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.loginSucceededPagePanel = new SamLu.Tools.Wlan_edu_Manager.GUI.LightLoginSucceededPagePanel();
+            this.loginSucceeded_btnLogout = new System.Windows.Forms.Button();
             this.loginInfoPagePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+            this.logoutInfoPagePanel.SuspendLayout();
+            this.cmsNotifyIcon.SuspendLayout();
+            this.loginSucceededPagePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // loginInfoPagePanel
@@ -60,8 +74,8 @@
             this.loginInfoPagePanel.Controls.Add(this.btnFetchTemproraryPwd);
             this.loginInfoPagePanel.Controls.Add(this.lblPwdImg);
             this.loginInfoPagePanel.Controls.Add(this.txtUserPwd);
-            this.loginInfoPagePanel.Controls.Add(this.txtUserName);
-            this.loginInfoPagePanel.Controls.Add(this.lblInfo);
+            this.loginInfoPagePanel.Controls.Add(this.loginInfo_txtUserName);
+            this.loginInfoPagePanel.Controls.Add(this.loginInfo_lblInfo);
             this.loginInfoPagePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.loginInfoPagePanel.FetchTemporaryPwdButton = this.btnFetchTemproraryPwd;
             this.loginInfoPagePanel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -71,8 +85,10 @@
             this.loginInfoPagePanel.Name = "loginInfoPagePanel";
             this.loginInfoPagePanel.Size = new System.Drawing.Size(464, 336);
             this.loginInfoPagePanel.TabIndex = 0;
-            this.loginInfoPagePanel.UserNameTextBox = this.txtUserName;
+            this.loginInfoPagePanel.UserNameTextBox = this.loginInfo_txtUserName;
             this.loginInfoPagePanel.UserPwdTextBox = this.txtUserPwd;
+            this.loginInfoPagePanel.FetchTemporaryPwd += new SamLu.Tools.Wlan_edu_Manager.FetchTemporaryPwdEventHandler(this.loginInfoPagePanel_FetchTemporaryPwd);
+            this.loginInfoPagePanel.Login += new SamLu.Tools.Wlan_edu_Manager.LoginEventHandler(this.login);
             // 
             // cbAutoLogin
             // 
@@ -109,18 +125,15 @@
             this.btnLogin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLogin.BackColor = System.Drawing.Color.SandyBrown;
-            this.btnLogin.Enabled = false;
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.btnLogin.ForeColor = System.Drawing.Color.White;
             this.btnLogin.Location = new System.Drawing.Point(107, 269);
-            this.btnLogin.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(249, 58);
             this.btnLogin.TabIndex = 0;
             this.btnLogin.Text = "登录";
             this.btnLogin.UseVisualStyleBackColor = false;
-            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
             // cbRememberMe
             // 
@@ -146,7 +159,6 @@
             this.btnFetchTemproraryPwd.TabIndex = 3;
             this.btnFetchTemproraryPwd.Text = "获取临时密码";
             this.btnFetchTemproraryPwd.UseVisualStyleBackColor = true;
-            this.btnFetchTemproraryPwd.Click += new System.EventHandler(this.btnFetchTemproraryPwd_Click);
             // 
             // lblPwdImg
             // 
@@ -184,40 +196,44 @@
             this.txtUserPwd.Name = "txtUserPwd";
             this.txtUserPwd.Size = new System.Drawing.Size(175, 29);
             this.txtUserPwd.TabIndex = 2;
+            this.txtUserPwd.Text = "输入固定密码/临时密码";
             this.txtUserPwd.UseSystemPasswordChar = true;
+            this.txtUserPwd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUserPwd_KeyDown);
             this.txtUserPwd.Validating += new System.ComponentModel.CancelEventHandler(this.txtUserPwd_Validating);
             // 
-            // txtUserName
+            // loginInfo_txtUserName
             // 
-            this.txtUserName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.loginInfo_txtUserName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUserName.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.txtUserName.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.errorProvider.SetIconAlignment(this.txtUserName, System.Windows.Forms.ErrorIconAlignment.MiddleLeft);
-            this.txtUserName.InfoBackColor = System.Drawing.SystemColors.Window;
-            this.txtUserName.InfoForeColor = System.Drawing.SystemColors.GrayText;
-            this.txtUserName.InfoText = "输入手机号码";
-            this.txtUserName.Location = new System.Drawing.Point(49, 145);
-            this.txtUserName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtUserName.MaxLength = 11;
-            this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(210, 29);
-            this.txtUserName.TabIndex = 1;
-            this.txtUserName.Validating += new System.ComponentModel.CancelEventHandler(this.txtUserName_Validating);
+            this.loginInfo_txtUserName.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.loginInfo_txtUserName.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.errorProvider.SetIconAlignment(this.loginInfo_txtUserName, System.Windows.Forms.ErrorIconAlignment.MiddleLeft);
+            this.loginInfo_txtUserName.InfoBackColor = System.Drawing.SystemColors.Window;
+            this.loginInfo_txtUserName.InfoForeColor = System.Drawing.SystemColors.GrayText;
+            this.loginInfo_txtUserName.InfoText = "输入手机号码";
+            this.loginInfo_txtUserName.Location = new System.Drawing.Point(49, 145);
+            this.loginInfo_txtUserName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.loginInfo_txtUserName.MaxLength = 11;
+            this.loginInfo_txtUserName.Name = "loginInfo_txtUserName";
+            this.loginInfo_txtUserName.Size = new System.Drawing.Size(210, 29);
+            this.loginInfo_txtUserName.TabIndex = 1;
+            this.loginInfo_txtUserName.Text = "输入手机号码";
+            this.loginInfo_txtUserName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUserName_KeyDown);
+            this.loginInfo_txtUserName.Validating += new System.ComponentModel.CancelEventHandler(this.txtUserName_Validating);
             // 
-            // lblInfo
+            // loginInfo_lblInfo
             // 
-            this.lblInfo.AutoEllipsis = true;
-            this.lblInfo.BackColor = System.Drawing.Color.SteelBlue;
-            this.lblInfo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblInfo.Font = new System.Drawing.Font("微软雅黑 Light", 32F, System.Drawing.FontStyle.Bold);
-            this.lblInfo.ForeColor = System.Drawing.Color.White;
-            this.lblInfo.Location = new System.Drawing.Point(0, 0);
-            this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(464, 113);
-            this.lblInfo.TabIndex = 0;
-            this.lblInfo.Text = "Wlan-edu 登录";
-            this.lblInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.loginInfo_lblInfo.AutoEllipsis = true;
+            this.loginInfo_lblInfo.BackColor = System.Drawing.Color.SteelBlue;
+            this.loginInfo_lblInfo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.loginInfo_lblInfo.Font = new System.Drawing.Font("微软雅黑 Light", 32F, System.Drawing.FontStyle.Bold);
+            this.loginInfo_lblInfo.ForeColor = System.Drawing.Color.White;
+            this.loginInfo_lblInfo.Location = new System.Drawing.Point(0, 0);
+            this.loginInfo_lblInfo.Name = "loginInfo_lblInfo";
+            this.loginInfo_lblInfo.Size = new System.Drawing.Size(464, 113);
+            this.loginInfo_lblInfo.TabIndex = 0;
+            this.loginInfo_lblInfo.Text = "Wlan-edu 登录";
+            this.loginInfo_lblInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // statusBar
             // 
@@ -240,17 +256,141 @@
             // logoutInfoPagePanel
             // 
             this.logoutInfoPagePanel.BackColor = System.Drawing.Color.White;
+            this.logoutInfoPagePanel.Controls.Add(this.logoutInfo_btnLogout);
+            this.logoutInfoPagePanel.Controls.Add(this.logoutInfo_txtUserName);
+            this.logoutInfoPagePanel.Controls.Add(this.logoutInfo_lblInfo);
             this.logoutInfoPagePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.logoutInfoPagePanel.Location = new System.Drawing.Point(0, 0);
+            this.logoutInfoPagePanel.LogoutButton = this.logoutInfo_btnLogout;
             this.logoutInfoPagePanel.Name = "logoutInfoPagePanel";
             this.logoutInfoPagePanel.Size = new System.Drawing.Size(464, 336);
             this.logoutInfoPagePanel.TabIndex = 7;
+            this.logoutInfoPagePanel.UserNameTextBox = this.logoutInfo_txtUserName;
+            this.logoutInfoPagePanel.Logout += new SamLu.Tools.Wlan_edu_Manager.LogoutEventHandler(this.logout);
+            // 
+            // logoutInfo_btnLogout
+            // 
+            this.logoutInfo_btnLogout.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.logoutInfo_btnLogout.BackColor = System.Drawing.Color.SandyBrown;
+            this.logoutInfo_btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.logoutInfo_btnLogout.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
+            this.logoutInfo_btnLogout.ForeColor = System.Drawing.Color.White;
+            this.logoutInfo_btnLogout.Location = new System.Drawing.Point(107, 269);
+            this.logoutInfo_btnLogout.Name = "logoutInfo_btnLogout";
+            this.logoutInfo_btnLogout.Size = new System.Drawing.Size(249, 58);
+            this.logoutInfo_btnLogout.TabIndex = 2;
+            this.logoutInfo_btnLogout.Text = "下线";
+            this.logoutInfo_btnLogout.UseVisualStyleBackColor = false;
+            // 
+            // logoutInfo_txtUserName
+            // 
+            this.logoutInfo_txtUserName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.logoutInfo_txtUserName.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.logoutInfo_txtUserName.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.logoutInfo_txtUserName.InfoBackColor = System.Drawing.SystemColors.Window;
+            this.logoutInfo_txtUserName.InfoForeColor = System.Drawing.SystemColors.GrayText;
+            this.logoutInfo_txtUserName.InfoText = "输入手机号码";
+            this.logoutInfo_txtUserName.Location = new System.Drawing.Point(49, 145);
+            this.logoutInfo_txtUserName.Name = "logoutInfo_txtUserName";
+            this.logoutInfo_txtUserName.Size = new System.Drawing.Size(210, 29);
+            this.logoutInfo_txtUserName.TabIndex = 1;
+            this.logoutInfo_txtUserName.Text = "输入手机号码";
+            this.logoutInfo_txtUserName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUserName_KeyDown);
+            this.logoutInfo_txtUserName.Validating += new System.ComponentModel.CancelEventHandler(this.txtUserName_Validating);
+            // 
+            // logoutInfo_lblInfo
+            // 
+            this.logoutInfo_lblInfo.BackColor = System.Drawing.Color.SteelBlue;
+            this.logoutInfo_lblInfo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.logoutInfo_lblInfo.Font = new System.Drawing.Font("微软雅黑 Light", 32F, System.Drawing.FontStyle.Bold);
+            this.logoutInfo_lblInfo.ForeColor = System.Drawing.Color.White;
+            this.logoutInfo_lblInfo.Location = new System.Drawing.Point(0, 0);
+            this.logoutInfo_lblInfo.Name = "logoutInfo_lblInfo";
+            this.logoutInfo_lblInfo.Size = new System.Drawing.Size(464, 113);
+            this.logoutInfo_lblInfo.TabIndex = 0;
+            this.logoutInfo_lblInfo.Text = "Wlan-edu 下线";
+            this.logoutInfo_lblInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // notifyIcon
+            // 
+            this.notifyIcon.ContextMenuStrip = this.cmsNotifyIcon;
+            this.notifyIcon.Text = "notifyIcon1";
+            this.notifyIcon.Visible = true;
+            this.notifyIcon.Click += new System.EventHandler(this.notifyIcon_Click);
+            // 
+            // cmsNotifyIcon
+            // 
+            this.cmsNotifyIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmsNotifyIcon_tsmiLogin,
+            this.cmsNotifyIcon_tsmiLogout,
+            this.cmsNotifyIcon_tsmiSeperator1,
+            this.cmsNotifyIcon_tsmiSettings});
+            this.cmsNotifyIcon.Name = "cmsNotifyIcon";
+            this.cmsNotifyIcon.Size = new System.Drawing.Size(119, 76);
+            // 
+            // cmsNotifyIcon_tsmiLogin
+            // 
+            this.cmsNotifyIcon_tsmiLogin.CheckOnClick = true;
+            this.cmsNotifyIcon_tsmiLogin.Image = global::SamLu.Tools.Wlan_edu_Manager.GUI.Properties.Resources.login_png;
+            this.cmsNotifyIcon_tsmiLogin.Name = "cmsNotifyIcon_tsmiLogin";
+            this.cmsNotifyIcon_tsmiLogin.Size = new System.Drawing.Size(118, 22);
+            this.cmsNotifyIcon_tsmiLogin.Text = "登录(&I)";
+            this.cmsNotifyIcon_tsmiLogin.Click += new System.EventHandler(this.cmsNotifyIcon_tsmiLogin_Click);
+            // 
+            // cmsNotifyIcon_tsmiLogout
+            // 
+            this.cmsNotifyIcon_tsmiLogout.CheckOnClick = true;
+            this.cmsNotifyIcon_tsmiLogout.Image = global::SamLu.Tools.Wlan_edu_Manager.GUI.Properties.Resources.logout_png;
+            this.cmsNotifyIcon_tsmiLogout.Name = "cmsNotifyIcon_tsmiLogout";
+            this.cmsNotifyIcon_tsmiLogout.Size = new System.Drawing.Size(118, 22);
+            this.cmsNotifyIcon_tsmiLogout.Text = "下线(&O)";
+            this.cmsNotifyIcon_tsmiLogout.Click += new System.EventHandler(this.cmsNotifyIcon_tsmiLogout_Click);
+            // 
+            // cmsNotifyIcon_tsmiSeperator1
+            // 
+            this.cmsNotifyIcon_tsmiSeperator1.Name = "cmsNotifyIcon_tsmiSeperator1";
+            this.cmsNotifyIcon_tsmiSeperator1.Size = new System.Drawing.Size(115, 6);
+            // 
+            // cmsNotifyIcon_tsmiSettings
+            // 
+            this.cmsNotifyIcon_tsmiSettings.Image = global::SamLu.Tools.Wlan_edu_Manager.GUI.Properties.Resources.settings_png;
+            this.cmsNotifyIcon_tsmiSettings.Name = "cmsNotifyIcon_tsmiSettings";
+            this.cmsNotifyIcon_tsmiSettings.Size = new System.Drawing.Size(118, 22);
+            this.cmsNotifyIcon_tsmiSettings.Text = "设置(&S)";
+            // 
+            // loginSucceededPagePanel
+            // 
+            this.loginSucceededPagePanel.Controls.Add(this.loginSucceeded_btnLogout);
+            this.loginSucceededPagePanel.Location = new System.Drawing.Point(0, 0);
+            this.loginSucceededPagePanel.LogoutButton = this.loginSucceeded_btnLogout;
+            this.loginSucceededPagePanel.Name = "loginSucceededPagePanel";
+            this.loginSucceededPagePanel.Size = new System.Drawing.Size(200, 100);
+            this.loginSucceededPagePanel.TabIndex = 8;
+            this.loginSucceededPagePanel.Logout += new SamLu.Tools.Wlan_edu_Manager.LogoutEventHandler(this.logout);
+            // 
+            // loginSucceeded_btnLogout
+            // 
+            this.loginSucceeded_btnLogout.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loginSucceeded_btnLogout.BackColor = System.Drawing.Color.SandyBrown;
+            this.loginSucceeded_btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.loginSucceeded_btnLogout.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
+            this.loginSucceeded_btnLogout.ForeColor = System.Drawing.Color.White;
+            this.loginSucceeded_btnLogout.Location = new System.Drawing.Point(0, 42);
+            this.loginSucceeded_btnLogout.Name = "loginSucceeded_btnLogout";
+            this.loginSucceeded_btnLogout.Size = new System.Drawing.Size(249, 58);
+            this.loginSucceeded_btnLogout.TabIndex = 2;
+            this.loginSucceeded_btnLogout.Text = "下线";
+            this.loginSucceeded_btnLogout.UseVisualStyleBackColor = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(464, 361);
+            this.Controls.Add(this.loginSucceededPagePanel);
             this.Controls.Add(this.logoutInfoPagePanel);
             this.Controls.Add(this.loginInfoPagePanel);
             this.Controls.Add(this.statusBar);
@@ -259,10 +399,16 @@
             this.MaximumSize = new System.Drawing.Size(2000, 400);
             this.MinimumSize = new System.Drawing.Size(480, 400);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.loginInfoPagePanel.ResumeLayout(false);
             this.loginInfoPagePanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+            this.logoutInfoPagePanel.ResumeLayout(false);
+            this.logoutInfoPagePanel.PerformLayout();
+            this.cmsNotifyIcon.ResumeLayout(false);
+            this.loginSucceededPagePanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -270,8 +416,8 @@
         #endregion
 
         private Controls.WinForm.LoginInfoPagePanel loginInfoPagePanel;
-        private Controls.WinForm.InfoTextBox txtUserName;
-        private System.Windows.Forms.Label lblInfo;
+        private Controls.WinForm.InfoTextBox loginInfo_txtUserName;
+        private System.Windows.Forms.Label loginInfo_lblInfo;
         private System.Windows.Forms.Button btnFetchTemproraryPwd;
         private System.Windows.Forms.Label lblPwdImg;
         private Controls.WinForm.InfoTextBox txtUserPwd;
@@ -284,5 +430,16 @@
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private Controls.WinForm.LogoutInfoPagePanel logoutInfoPagePanel;
+        private System.Windows.Forms.Label logoutInfo_lblInfo;
+        private System.Windows.Forms.Button logoutInfo_btnLogout;
+        private Controls.WinForm.InfoTextBox logoutInfo_txtUserName;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.ContextMenuStrip cmsNotifyIcon;
+        private System.Windows.Forms.ToolStripMenuItem cmsNotifyIcon_tsmiLogin;
+        private System.Windows.Forms.ToolStripMenuItem cmsNotifyIcon_tsmiLogout;
+        private System.Windows.Forms.ToolStripSeparator cmsNotifyIcon_tsmiSeperator1;
+        private System.Windows.Forms.ToolStripMenuItem cmsNotifyIcon_tsmiSettings;
+        private LightLoginSucceededPagePanel loginSucceededPagePanel;
+        private System.Windows.Forms.Button loginSucceeded_btnLogout;
     }
 }
