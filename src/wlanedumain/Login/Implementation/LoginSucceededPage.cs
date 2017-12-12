@@ -10,12 +10,10 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
 {
     public class LoginSucceededPage : LogoutInfoPage, ILoginSucceededPage
     {
-        private DateTime succeededTime;
-
         /// <summary>
         /// 获取 <see cref="LoginSucceededPage"/> 登入成功的时间。
         /// </summary>
-        public DateTime SucceededTime => this.succeededTime;
+        public DateTime SucceededTime => base.currentTime;
 
         /// <summary>
         /// 获取登入成功页显示的 Wlan-edu 信息。
@@ -47,9 +45,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
         public override void Initialize()
         {
             base.Initialize();
-
-            this.succeededTime = DateTime.Now;
-
+            
             foreach (var node in this.document.DocumentNode.SelectNodes(@"//p[@class='tc_js']"))
             {
                 Match match = Regex.Match(node.InnerText, @"(?<Name>^\S*?)：(?<Value>(\s|\S)*$)");

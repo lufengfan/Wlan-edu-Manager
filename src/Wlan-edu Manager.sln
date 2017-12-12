@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerGUI.WinForm", "Manag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountCertificate", "AccountCertificate\AccountCertificate.csproj", "{E5ACED0A-1E95-44E3-9CA7-4E2108206F9B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{94952085-D31F-462A-A41D-D128821ACA3E}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Wlan-edu Manager Installer", "Wlan-edu Manager Installer\Wlan-edu Manager Installer.vdproj", "{A9284CD8-A8C1-465B-A1A1-4EE33B10C2DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,8 @@ Global
 		{E5ACED0A-1E95-44E3-9CA7-4E2108206F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5ACED0A-1E95-44E3-9CA7-4E2108206F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5ACED0A-1E95-44E3-9CA7-4E2108206F9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9284CD8-A8C1-465B-A1A1-4EE33B10C2DD}.Debug|Any CPU.ActiveCfg = Debug
+		{A9284CD8-A8C1-465B-A1A1-4EE33B10C2DD}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,5 +81,6 @@ Global
 		{5F62ED31-D8AE-40AE-9BB9-318DC935F6F2} = {1FE2E626-1C0A-44CF-B7F2-9807899DC9E6}
 		{E790653F-EC20-42B6-AB62-5DAE28FE50D8} = {1FE2E626-1C0A-44CF-B7F2-9807899DC9E6}
 		{E5ACED0A-1E95-44E3-9CA7-4E2108206F9B} = {3C35A3ED-E401-4A17-94D0-78F23C00EDFE}
+		{A9284CD8-A8C1-465B-A1A1-4EE33B10C2DD} = {94952085-D31F-462A-A41D-D128821ACA3E}
 	EndGlobalSection
 EndGlobal

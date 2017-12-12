@@ -9,7 +9,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
 {
     partial class MainForm
     {
-        private void common_Initialize()
+        private void common_Initialize(string userName, string userPwd, bool isAutoLogin, bool cancelAutoLogin)
         {
             IManagerPagePanelContainer container = this;
             container.Add(this.loginInfoPagePanel);
@@ -18,7 +18,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
 
             this.cmsNotifyIcon_tsmiLogin.Checked = true;
 
-            this.loginInfo_Initialize();
+            this.loginInfo_Initialize(userName, userPwd, isAutoLogin, cancelAutoLogin);
             this.loginSucceeded_Initialize();
             this.logoutInfo_Initialize();
         }
@@ -30,6 +30,18 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
             if (this.canAcceptUserName(txt.Text))
             {
                 this.errorProvider.Clear();
+
+                #region 自动填写登录信息
+                // 如果设置文件中当前用户的状态为记住密码
+                var dic = CommandLine.Console.AccountDictionary;
+                if (dic.ContainsKey(this.loginInfo_txtUserName.Text))
+                {
+                    var account = dic[this.loginInfo_txtUserName.Text];
+                    this.txtUserPwd.Text = account.userpwd;
+                    this.cbRememberMe.Checked = account.rememberme;
+                    this.cbAutoLogin.Checked = account.autologin;
+                }
+                #endregion
             }
             else
             {
@@ -51,15 +63,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                 this.ProcessTabKey(true);
             }
         }
-
-        private void logoutInfo_btnLogout_Click(object sender, EventArgs e)
-        {
-            ((Button)sender).Parent.Enabled = false;
-
-            this.statusBar.StatusBarState = StatusBarState.Information;
-            this.statusBar.Text = "正在下线……";
-        }
-
+        
         private bool canAcceptUserName(string userName)
         {
             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"^\d{11}$", System.Text.RegularExpressions.RegexOptions.Compiled);
@@ -80,7 +84,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
             }
             else if (this.CurrentPagePanel == this.logoutInfoPagePanel)
             {
-                return this.canAcceptUserName(this.loginInfoPagePanel.UserName);
+                return this.canAcceptUserName(this.logoutInfoPagePanel.UserName);
             }
             else if (this.CurrentPagePanel == this.loginSucceededPagePanel)
                 return true;
@@ -93,10 +97,9 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
 
             this.CurrentPagePanel.Enabled = false;
 
-            this.statusBar.StatusBarState = StatusBarState.Information;
-            this.statusBar.Text = "正在下线……";
+            this.statusBar.ShowStatus("正在下线……", StatusBarState.Information);
 
-            this.manager.NextPage(
+            Program.manager.NextPage(
                 (page, _e) =>
                 {
                     var nextPage = ((ILogoutInfoPage)page).Logout(e.UserName, e.CancelAutoLogin);
@@ -119,10 +122,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
             if (page is ILoginInfoPage)
                 this.Switch(ManagerPageType.LoginInfo);
             else if (page is ILoginSucceededPage)
-            {
-                this.loginSucceededPagePanel.userName = this.loginInfoPagePanel.UserName;
                 this.Switch(ManagerPageType.LoginSucceeded);
-            }
             else if (page is ILogoutInfoPage)
                 this.Switch(ManagerPageType.LogoutInfo);
             else

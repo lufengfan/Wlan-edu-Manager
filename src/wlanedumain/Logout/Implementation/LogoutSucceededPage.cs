@@ -35,37 +35,9 @@ namespace SamLu.Tools.Wlan_edu_Manager.Logout.Implementation
         /// </summary>
         public override void Initialize()
         {
-            IDictionary<string, object> scriptVariants =
-                   Regex.Matches(
-                       this.document.DocumentNode
-                           .SelectSingleNode(@"html/head/script")
-                           ?.InnerText,
-                       @"var\s+(?<VariantName>\w+?)\s+=\s+(?<VariantValue>(\s|\S)+?);"
-                   )
-                   .OfType<Match>()
-                   .ToDictionary<Match, string, object>(
-                       (match => match.Groups["VariantName"].Value),
-                       (match =>
-                       {
-                           string value = match.Groups["VariantValue"].Value;
-                           if (Regex.IsMatch(value, @"^(-)?\s*\d+$"))
-                           {
-                               return int.Parse(value);
-                           }
-                           else if (Regex.IsMatch(value, @"^\d*\.\d+$"))
-                           {
-                               return double.Parse(value);
-                           }
-                           else if (Regex.IsMatch(value, @"^""[^""]*""$"))
-                           {
-                               return value.Trim('"');
-                           }
-                           else
-                               throw new NotSupportedException();
-                       })
-                   );
+            base.Initialize();
 
-            this.loginActionAddress = $"{scriptVariants["httpBase"]}{scriptVariants["ctxPath"]}/portalLogin.wlan?{Wlan_eduManager.GetMiliseconds()}";
+            this.loginActionAddress = $"{this.scriptVariants["httpBase"]}{this.scriptVariants["ctxPath"]}/portalLogin.wlan?{Wlan_eduManager.GetMiliseconds(base.currentTime)}";
         }
         
         /// <summary>

@@ -96,6 +96,7 @@
     <Compile Include="WinForm\ManagerPagePanel.Designer.cs">
       <DependentUpon>ManagerPagePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="WinForm\ManagerPagePanelChangedEventSeries.cs" />
     <Compile Include="WinForm\PenetrableForm.cs">
       <SubType>Form</SubType>
     </Compile>

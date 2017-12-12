@@ -1,12 +1,16 @@
-﻿using System;
+﻿using SamLu.Tools.Wlan_edu_Manager.Login.Implementation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Windows.Forms;
 
 namespace SamLu.Tools.Wlan_edu_Manager.GUI
 {
     internal class Program
     {
+        internal static Wlan_eduManager manager;
+
         static Program()
         {
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
@@ -42,13 +46,43 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm()
-#if true
+
+            try
             {
-                manager = Wlan_eduManager.CreateManagerFromRedirection()
+                Program.manager = Wlan_eduManager.CreateManagerFromRedirection();
             }
-#endif
-            );
+            catch (Wlan_eduNotConnectedException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                userName = null;
+                userPwd = null;
+                isAutoLogin = false;
+                cancelAutoLogin = false;
+                
+
+                DateTime currentTime = DateTime.Now;
+                Program.manager = new Wlan_eduManager(
+                    new LoginInfoPage(string.Empty)
+                    {
+                        wlanAcName = "0434.0571.571.00",
+                        wlanUserIp = "10.137.188.218",
+                        scriptVariants = new Dictionary<string, object>()
+                        {
+                            { "httpBase", "https://211.138.125.52:7090" },
+                            {"ctxPath", "/zmcc" }
+                        },
+                        currentTime = currentTime,
+                        loginActionAddress = $"https://211.138.125.52:7090/zmcc/portalLogin.wlan?{Wlan_eduManager.GetMiliseconds(currentTime)}",
+                        fetchTemporaryPwdAddress = $"https://211.138.125.52:7090/zmcc/portalApplyPwd.wlan"
+                    }
+                );
+            }
+
+            var form = new MainForm(userName, userPwd, isAutoLogin, cancelAutoLogin);
+            Application.Run(form);
         }
     }
 }

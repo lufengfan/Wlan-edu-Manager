@@ -42,7 +42,8 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
             {
                 url = form.GetAttributeValue("action", null),
                 wlanAcName = this.wlanAcName,
-                wlanUserIp = this.wlanUserIp
+                wlanUserIp = this.wlanUserIp,
+                scriptVariants = this.scriptVariants
             };
         }
     }

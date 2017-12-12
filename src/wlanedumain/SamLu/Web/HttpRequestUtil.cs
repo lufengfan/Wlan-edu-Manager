@@ -82,16 +82,20 @@ namespace SamLu.Web
 
             return string.Join("&",
                 (
-                    from fi in typeof(TData).GetFields(
+                    from mi in typeof(TData).GetMembers(
                         System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
-                    let attributes = fi.GetCustomAttributes(true)
+                    where mi.MemberType == System.Reflection.MemberTypes.Field || mi.MemberType == System.Reflection.MemberTypes.Property
+                    let attributes = mi.GetCustomAttributes(true)
                     where !attributes.OfType<NonSerializedAttribute>().Any()
                     let defaultValueAttr = attributes.OfType<DefaultValueAttribute>().FirstOrDefault()
                     let hasDefaultValue = defaultValueAttr != null
                     let defaultValue = hasDefaultValue ? defaultValueAttr.Value : null
-                    let exactValue = fi.GetValue(data)
+                    let exactValue =
+                        (mi.MemberType == System.Reflection.MemberTypes.Field) ?
+                            ((System.Reflection.FieldInfo)mi).GetValue(data) :
+                            ((System.Reflection.PropertyInfo)mi).GetValue(data, null)
                     select string.Format("{0}={1}",
-                        fi.Name,
+                        mi.Name,
                         HttpUtility.UrlEncode(((
                             (hasDefaultValue && object.Equals(defaultValue, exactValue))
                                 ? null : exactValue
@@ -195,10 +199,14 @@ namespace SamLu.Web
                 using (Stream stream = webResponse.GetResponseStream())
                 {
                     long contentLength = webResponse.ContentLength;
-                    byte[] bytes = new byte[contentLength];
-                    bytes = ReadFully(stream);
-                    stream.Close();
-                    return bytes;
+                    if (contentLength > 0)
+                    {
+                        byte[] bytes = new byte[contentLength];
+                        bytes = ReadFully(stream);
+                        stream.Close();
+                        return bytes;
+                    }
+                    else return new byte[0];
                 }
             }
         }

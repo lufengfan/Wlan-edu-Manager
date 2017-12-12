@@ -9,15 +9,58 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.CommandLine
 {
     internal static class Console
     {
+        public sealed class _accounts
+        {
+            public _account[] accounts;
+
+            public sealed class _account
+            {
+                public string username;
+                public string userpwd;
+                public bool rememberme;
+                public bool autologin;
+            }
+        }
+
+        public static readonly _accounts Accounts;
+        public static readonly IDictionary<string, _accounts._account> AccountDictionary;
+        static Console()
+        {
+            //Console.LoadConfig();
+            string configFilePath = Path.Combine(Path.GetDirectoryName(typeof(Console).Assembly.Location), "accounts.config");
+            Accounts = File.Exists(configFilePath) ? Newtonsoft.Json.JsonConvert.DeserializeObject<_accounts>(File.ReadAllText(configFilePath)) : new _accounts() { accounts = new _accounts._account[0] };
+            AccountDictionary = CommandLine.Console.Accounts.accounts.ToDictionary(account => account.username);
+        }
+
+        public static void LoadConfig()
+        {
+            //string configFilePath = Path.Combine(Path.GetDirectoryName(typeof(Console).Assembly.Location), "accounts.config");
+            //Accounts = Newtonsoft.Json.JsonConvert.DeserializeObject<_accounts>(File.ReadAllText(configFilePath));
+            //AccountDictionary = CommandLine.Console.Accounts.accounts.ToDictionary(account => account.username);
+        }
+
+        public static void SaveConfig()
+        {
+            var accounts = new _accounts()
+            {
+                accounts = AccountDictionary.Select(pair => pair.Value).ToArray()
+            };
+            string configFilePath = Path.Combine(Path.GetDirectoryName(typeof(Console).Assembly.Location), "accounts.config");
+            string serializedStr = Newtonsoft.Json.JsonConvert.SerializeObject(accounts);
+            File.WriteAllText(configFilePath, serializedStr);
+        }
+
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
         static int Main(string[] args)
         {
-            new Program().Run(null, null, true, true);
+#if true
+            var account = Accounts.accounts.Where(_account => _account.autologin == true).DefaultIfEmpty(new _accounts._account() { username = null, userpwd = null, rememberme = false, autologin = false }).First();
+            new Program().Run(account.username, account.userpwd, account.autologin, false);
             return 0;
-
+#else
             OptionCollection options = new OptionCollection();
             options.Add(new StringOption("username", "指定登录的用户名。", "{用户名}"));
             options.Add(new StringOption("userpwd", "指定登录的用户密码。", "{用户密码}"));
@@ -64,6 +107,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.CommandLine
                 System.Console.WriteLine("未输入用户名或密码。");
                 return 1;
             }
+#endif
         }
     }
 }

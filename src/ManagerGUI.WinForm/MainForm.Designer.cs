@@ -45,6 +45,7 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.logoutInfoPagePanel = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.LogoutInfoPagePanel();
+            this.lblLogoutInfoInfo = new System.Windows.Forms.Label();
             this.logoutInfo_btnLogout = new System.Windows.Forms.Button();
             this.logoutInfo_txtUserName = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.InfoTextBox();
             this.logoutInfo_lblInfo = new System.Windows.Forms.Label();
@@ -55,7 +56,10 @@
             this.cmsNotifyIcon_tsmiSeperator1 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsNotifyIcon_tsmiSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.loginSucceededPagePanel = new SamLu.Tools.Wlan_edu_Manager.GUI.LightLoginSucceededPagePanel();
+            this.lblWlanInfos = new System.Windows.Forms.Label();
+            this.lblLoginDuration = new System.Windows.Forms.Label();
             this.loginSucceeded_btnLogout = new System.Windows.Forms.Button();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.loginInfoPagePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.logoutInfoPagePanel.SuspendLayout();
@@ -83,6 +87,7 @@
             this.loginInfoPagePanel.LoginButton = this.btnLogin;
             this.loginInfoPagePanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.loginInfoPagePanel.Name = "loginInfoPagePanel";
+            this.loginInfoPagePanel.RememberMeCheckBox = this.cbRememberMe;
             this.loginInfoPagePanel.Size = new System.Drawing.Size(464, 336);
             this.loginInfoPagePanel.TabIndex = 0;
             this.loginInfoPagePanel.UserNameTextBox = this.loginInfo_txtUserName;
@@ -256,6 +261,7 @@
             // logoutInfoPagePanel
             // 
             this.logoutInfoPagePanel.BackColor = System.Drawing.Color.White;
+            this.logoutInfoPagePanel.Controls.Add(this.lblLogoutInfoInfo);
             this.logoutInfoPagePanel.Controls.Add(this.logoutInfo_btnLogout);
             this.logoutInfoPagePanel.Controls.Add(this.logoutInfo_txtUserName);
             this.logoutInfoPagePanel.Controls.Add(this.logoutInfo_lblInfo);
@@ -267,6 +273,19 @@
             this.logoutInfoPagePanel.TabIndex = 7;
             this.logoutInfoPagePanel.UserNameTextBox = this.logoutInfo_txtUserName;
             this.logoutInfoPagePanel.Logout += new SamLu.Tools.Wlan_edu_Manager.LogoutEventHandler(this.logout);
+            // 
+            // lblLogoutInfoInfo
+            // 
+            this.lblLogoutInfoInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblLogoutInfoInfo.AutoEllipsis = true;
+            this.lblLogoutInfoInfo.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.lblLogoutInfoInfo.ForeColor = System.Drawing.Color.Red;
+            this.lblLogoutInfoInfo.Location = new System.Drawing.Point(46, 182);
+            this.lblLogoutInfoInfo.Name = "lblLogoutInfoInfo";
+            this.lblLogoutInfoInfo.Size = new System.Drawing.Size(368, 84);
+            this.lblLogoutInfoInfo.TabIndex = 3;
+            this.lblLogoutInfoInfo.Text = "　　输入11位手机号码，然后点击“下线”按钮，指定账户下线。\r\n　　如果当前处于非正常登录状态下，可以使用此功能下线。";
             // 
             // logoutInfo_btnLogout
             // 
@@ -316,7 +335,6 @@
             // notifyIcon
             // 
             this.notifyIcon.ContextMenuStrip = this.cmsNotifyIcon;
-            this.notifyIcon.Text = "notifyIcon1";
             this.notifyIcon.Visible = true;
             this.notifyIcon.Click += new System.EventHandler(this.notifyIcon_Click);
             // 
@@ -362,13 +380,42 @@
             // 
             // loginSucceededPagePanel
             // 
+            this.loginSucceededPagePanel.Controls.Add(this.lblWlanInfos);
+            this.loginSucceededPagePanel.Controls.Add(this.lblLoginDuration);
             this.loginSucceededPagePanel.Controls.Add(this.loginSucceeded_btnLogout);
+            this.loginSucceededPagePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.loginSucceededPagePanel.Location = new System.Drawing.Point(0, 0);
             this.loginSucceededPagePanel.LogoutButton = this.loginSucceeded_btnLogout;
             this.loginSucceededPagePanel.Name = "loginSucceededPagePanel";
-            this.loginSucceededPagePanel.Size = new System.Drawing.Size(200, 100);
+            this.loginSucceededPagePanel.Size = new System.Drawing.Size(464, 336);
             this.loginSucceededPagePanel.TabIndex = 8;
             this.loginSucceededPagePanel.Logout += new SamLu.Tools.Wlan_edu_Manager.LogoutEventHandler(this.logout);
+            // 
+            // lblWlanInfos
+            // 
+            this.lblWlanInfos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblWlanInfos.AutoEllipsis = true;
+            this.lblWlanInfos.ForeColor = System.Drawing.Color.Red;
+            this.lblWlanInfos.Location = new System.Drawing.Point(73, 145);
+            this.lblWlanInfos.Name = "lblWlanInfos";
+            this.lblWlanInfos.Size = new System.Drawing.Size(318, 107);
+            this.lblWlanInfos.TabIndex = 4;
+            // 
+            // lblLoginDuration
+            // 
+            this.lblLoginDuration.AutoEllipsis = true;
+            this.lblLoginDuration.BackColor = System.Drawing.Color.SteelBlue;
+            this.lblLoginDuration.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblLoginDuration.Font = new System.Drawing.Font("微软雅黑 Light", 36F, System.Drawing.FontStyle.Bold);
+            this.lblLoginDuration.ForeColor = System.Drawing.Color.White;
+            this.lblLoginDuration.Location = new System.Drawing.Point(0, 0);
+            this.lblLoginDuration.Name = "lblLoginDuration";
+            this.lblLoginDuration.Size = new System.Drawing.Size(464, 113);
+            this.lblLoginDuration.TabIndex = 3;
+            this.lblLoginDuration.Text = "00 : 00 : 00";
+            this.lblLoginDuration.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // loginSucceeded_btnLogout
             // 
@@ -378,12 +425,17 @@
             this.loginSucceeded_btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.loginSucceeded_btnLogout.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.loginSucceeded_btnLogout.ForeColor = System.Drawing.Color.White;
-            this.loginSucceeded_btnLogout.Location = new System.Drawing.Point(0, 42);
+            this.loginSucceeded_btnLogout.Location = new System.Drawing.Point(107, 269);
             this.loginSucceeded_btnLogout.Name = "loginSucceeded_btnLogout";
             this.loginSucceeded_btnLogout.Size = new System.Drawing.Size(249, 58);
             this.loginSucceeded_btnLogout.TabIndex = 2;
             this.loginSucceeded_btnLogout.Text = "下线";
             this.loginSucceeded_btnLogout.UseVisualStyleBackColor = false;
+            // 
+            // timer
+            // 
+            this.timer.Interval = 1000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // MainForm
             // 
@@ -441,5 +493,9 @@
         private System.Windows.Forms.ToolStripMenuItem cmsNotifyIcon_tsmiSettings;
         private LightLoginSucceededPagePanel loginSucceededPagePanel;
         private System.Windows.Forms.Button loginSucceeded_btnLogout;
+        private System.Windows.Forms.Label lblLogoutInfoInfo;
+        private System.Windows.Forms.Label lblLoginDuration;
+        private System.Windows.Forms.Label lblWlanInfos;
+        private System.Windows.Forms.Timer timer;
     }
 }

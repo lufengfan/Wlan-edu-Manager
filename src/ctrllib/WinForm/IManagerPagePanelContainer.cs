@@ -9,6 +9,8 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
     {
         ManagerPagePanel CurrentPagePanel { get; }
 
+        event ManagerPagePanelChangedEventHandler CurrentPagePanelChanged;
+
         void Switch(ManagerPagePanel panel);
     }
 }

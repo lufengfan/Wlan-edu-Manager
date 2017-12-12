@@ -12,6 +12,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
     {
         protected internal string loginActionAddress;
         protected internal string fetchTemporaryPwdAddress;
+        protected internal DateTime currentTime;
 
         /// <summary>
         /// 初始化 <see cref="LoginInfoPage"/> 类的新实例。
@@ -37,7 +38,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
         /// </summary>
         public override void Initialize()
         {
-            IDictionary<string, object> scriptVariants =
+            this.scriptVariants = this.scriptVariants ??
                 Regex.Matches(
                     this.document.DocumentNode
                         .SelectSingleNode(@"html/head/script")
@@ -66,9 +67,12 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
                             throw new NotSupportedException();
                     })
                 );
-            
-            this.loginActionAddress = this.document.GetElementbyId("Wlan_Login")?.GetAttributeValue("action", null);
-            this.fetchTemporaryPwdAddress = $"{scriptVariants["httpBase"]}{scriptVariants["ctxPath"]}/portalApplyPwd.wlan";
+
+            this.currentTime = DateTime.Now;
+
+            this.loginActionAddress = this.document.GetElementbyId("Wlan_Login")?.GetAttributeValue("action", null) ??
+                $"{this.scriptVariants["httpBase"]}{this.scriptVariants["ctxPath"]}/portalLogin.wlan?{Wlan_eduManager.GetMiliseconds(this.currentTime)}";
+            this.fetchTemporaryPwdAddress = $"{this.scriptVariants["httpBase"]}{this.scriptVariants["ctxPath"]}/portalApplyPwd.wlan";
         }
 
         /// <summary>
@@ -112,14 +116,16 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
                     {
                         url = this.loginActionAddress,
                         wlanAcName = this.wlanAcName,
-                        wlanUserIp = this.wlanUserIp
+                        wlanUserIp = this.wlanUserIp,
+                        scriptVariants = this.scriptVariants
                     };
                 case LoginingPage.FORM_NAME:
                     return new LoginingPage(doc)
                     {
                         url = this.loginActionAddress,
                         wlanAcName = this.wlanAcName,
-                        wlanUserIp = this.wlanUserIp
+                        wlanUserIp = this.wlanUserIp,
+                        scriptVariants = this.scriptVariants
                     };
                 default:
                     throw new InvalidOperationException("无法识别页。");
@@ -132,7 +138,9 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
             {
                 mobile = userName,
                 wlanAcName = this.wlanAcName,
-                wlanUserIp = this.wlanUserIp
+                wlanUserIp = this.wlanUserIp,
+                wlanAcIp = "",
+                ssid = ""
             };
             string dataStr = query.SerializeData();
 
@@ -142,10 +150,6 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
                     this.encoding.GetBytes(dataStr)
                 )
             );
-
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(response);
-
             ;
         }
     }

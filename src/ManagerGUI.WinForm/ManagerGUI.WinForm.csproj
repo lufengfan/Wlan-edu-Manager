@@ -46,6 +46,12 @@
     <Reference Include="CommandLineInfo.Core">
       <HintPath>..\..\static\CommandLineInfo.Core.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.6.7.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.6.7\lib\Net20\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net35\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -99,6 +105,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -111,10 +118,6 @@
     <None Include="PublicKey.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BugReport\BugReport.csproj">
-      <Project>{49e012ed-a8a5-405d-913d-14914e19f26d}</Project>
-      <Name>BugReport</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ctrllib\ctrllib.csproj">
       <Project>{5f62ed31-d8ae-40ae-9bb9-318dc935f6f2}</Project>
       <Name>ctrllib</Name>

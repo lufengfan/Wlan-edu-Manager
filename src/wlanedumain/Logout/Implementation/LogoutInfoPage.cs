@@ -11,6 +11,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.Logout.Implementation
     public class LogoutInfoPage : ManagerPage, ILogoutInfoPage
     {
         protected internal string loginActionAddress;
+        protected internal DateTime currentTime;
 
         /// <summary>
         /// 初始化 <see cref="LogoutInfoPage"/> 类的新实例。
@@ -36,7 +37,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.Logout.Implementation
         /// </summary>
         public override void Initialize()
         {
-            IDictionary<string, object> scriptVariants =
+            this.scriptVariants = this.scriptVariants ??
                 Regex.Matches(
                     this.document.DocumentNode
                         .SelectSingleNode(@"html/head/script")
@@ -66,7 +67,8 @@ namespace SamLu.Tools.Wlan_edu_Manager.Logout.Implementation
                     })
                 );
 
-            this.loginActionAddress = $"{scriptVariants["httpBase"]}{scriptVariants["ctxPath"]}/portalLogout.wlan?isCloseWindow=N&{Wlan_eduManager.GetMiliseconds()}";
+            this.currentTime = DateTime.Now;
+            this.loginActionAddress = $"{this.scriptVariants["httpBase"]}{this.scriptVariants["ctxPath"]}/portalLogout.wlan?isCloseWindow=N&{Wlan_eduManager.GetMiliseconds(this.currentTime)}";
         }
 
         /// <summary>
@@ -98,7 +100,8 @@ namespace SamLu.Tools.Wlan_edu_Manager.Logout.Implementation
             return new LogoutingPage(doc)
             {
                 wlanAcName = this.wlanAcName,
-                wlanUserIp = this.wlanUserIp
+                wlanUserIp = this.wlanUserIp,
+                scriptVariants = this.scriptVariants
             };
         }
     }

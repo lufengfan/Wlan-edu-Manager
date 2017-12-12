@@ -1,19 +1,24 @@
 ﻿using SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm;
 using SamLu.Tools.Wlan_edu_Manager.Login;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SamLu.Tools.Wlan_edu_Manager.GUI
 {
     partial class MainForm
     {
-        private void loginInfo_Initialize()
+        private void loginInfo_Initialize(string userName, string userPwd, bool isAutoLogin, bool cancelAutoLogin)
         {
             this.loginInfo_txtUserName.Clear();
-            this.loginInfo_txtUserName.Tag = this.btnLogin;
+            this.loginInfo_txtUserName.Text = userName;
             this.txtUserPwd.Clear();
-            this.btnLogin.Enabled = false;
+            this.txtUserPwd.Text = userPwd;
+            this.cbAutoLogin.Checked = isAutoLogin;
+            if (isAutoLogin) this.cbRememberMe.Checked = true;
+            this.btnLogin.Enabled = true;
         }
         
         private void txtUserPwd_Validating(object sender, CancelEventArgs e)
@@ -89,7 +94,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
 
         private void loginInfoPagePanel_FetchTemporaryPwd(object sender, FetchTemporaryPwdEventArgs e)
         {
-            ((ILoginInfoPage)this.manager.CurrentPage).FetchTemporaryPwd(e.UserName);
+            ((ILoginInfoPage)Program.manager.CurrentPage).FetchTemporaryPwd(e.UserName);
         }
 
         private void login(object sender, LoginEventArgs e)
@@ -98,10 +103,9 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
 
             this.loginInfoPagePanel.Enabled = false;
 
-            this.statusBar.StatusBarState = StatusBarState.Information;
-            this.statusBar.Text = "正在登录……";
+            this.statusBar.ShowStatus("正在登录……", StatusBarState.Information);
 
-            this.manager.NextPage(
+            Program.manager.NextPage(
                 (page, _e) =>
                 {
                     var nextPage = ((ILoginInfoPage)page).Login(e.UserName, e.UserPwd, e.AutoLogin);
@@ -111,7 +115,9 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                         {
                             nextPage = ((ILoginForcedPage)nextPage).ForceLogin();
                             if (nextPage is ILoginingPage)
-                                return nextPage;
+                            {
+                                return ((ILoginingPage)nextPage).Success();
+                            }
                             else if (nextPage is ILoginFailedPage)
                             {
                                 MessageBox.Show($"登入认证失败，用户( {e.UserName} )当前处于非正常状态！", "登入", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);

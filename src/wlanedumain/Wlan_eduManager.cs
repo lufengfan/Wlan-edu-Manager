@@ -1,5 +1,8 @@
 ﻿using HtmlAgilityPack;
+using SamLu.Tools.Wlan_edu_Manager.Login;
 using SamLu.Tools.Wlan_edu_Manager.Login.Implementation;
+using SamLu.Tools.Wlan_edu_Manager.Logout;
+using SamLu.Tools.Wlan_edu_Manager.Logout.Implementation;
 using SamLu.Web;
 using System;
 using System.Collections.Generic;
@@ -17,8 +20,6 @@ namespace SamLu.Tools.Wlan_edu_Manager
         
         public Wlan_eduManager(IManagerPage firstPage)
         {
-            if (firstPage == null) throw new ArgumentNullException(nameof(firstPage));
-
             this.page = firstPage;
         }
 
@@ -26,12 +27,26 @@ namespace SamLu.Tools.Wlan_edu_Manager
 
         public Wlan_eduManager(string wlanAcName, string wlanUserIp, string url, Encoding encoding)
         {
-            this.page = new LoginInfoPage(url, encoding)
+            this.page = Wlan_eduManager.CreateLoginInfoPageWithoutInitialize(wlanAcName, wlanUserIp, url, encoding);
+            this.page.Initialize();
+        }
+
+        public static ILoginInfoPage CreateLoginInfoPageWithoutInitialize(string wlanAcName, string wlanUserIp, string url, Encoding encoding)
+        {
+            return new LoginInfoPage(url, encoding)
             {
                 wlanAcName = wlanAcName,
                 wlanUserIp = wlanUserIp
             };
-            this.page.Initialize();
+        }
+
+        public static ILogoutInfoPage CreateLogoutInfoPageWithoutInitialize(string wlanAcName, string wlanUserIp, string url, Encoding encoding)
+        {
+            return new LogoutInfoPage(url, encoding)
+            {
+                wlanAcName = wlanAcName,
+                wlanUserIp = wlanUserIp
+            };
         }
 
         public static Wlan_eduManager CreateManagerFromRedirection()
@@ -65,7 +80,7 @@ namespace SamLu.Tools.Wlan_edu_Manager
 
             return new Wlan_eduManager(wlanAcName, wlanUserIp, url, encoding);
         }
-
+        
         public bool NextPage(ChangePageHandler changePage, CallbackHandler callback = null)
         {
             if (changePage == null) throw new ArgumentNullException(nameof(changePage));
@@ -82,9 +97,9 @@ namespace SamLu.Tools.Wlan_edu_Manager
             else return false;
         }
 
-        internal static long GetMiliseconds()
+        internal static long GetMiliseconds(DateTime dateTime)
         {
-            DateTime logout_dt = DateTime.Now;
+            DateTime logout_dt = dateTime;
             TimeSpan span = logout_dt - new DateTime(1970, 1, 1);
             long miliseconds = 1;
 

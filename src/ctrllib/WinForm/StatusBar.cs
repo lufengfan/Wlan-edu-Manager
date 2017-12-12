@@ -57,5 +57,60 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
             }
             this.Visible = true;
         }
+
+        public void ShowStatus()
+        {
+            if (this.StatusBarState != StatusBarState.None)
+                this.Visible = true;
+        }
+
+        public void ShowStatus(string text)
+        {
+            this.Text = text;
+            this.ShowStatus();
+        }
+
+        public void ShowStatus(string text, StatusBarState state)
+        {
+            this.Text = text;
+            this.StatusBarState = state;
+            this.ShowStatus();
+        }
+
+        public delegate object InvokeHandler(Delegate method, params object[] args);
+
+        public void ShowStatus(int timeout, InvokeHandler handler)
+        {
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
+
+            this.ShowStatus();
+            this.setTimeout(timeout, handler);
+        }
+
+        public void ShowStatus(int timeout, string text, InvokeHandler handler)
+        {
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
+
+            this.ShowStatus(text);
+            this.setTimeout(timeout, handler);
+        }
+
+        public void ShowStatus(int timeout, string text, StatusBarState state, InvokeHandler handler)
+        {
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
+
+            this.ShowStatus(text, state);
+            this.setTimeout(timeout, handler);
+        }
+
+        private void setTimeout(int timeout, InvokeHandler handler)
+        {
+            new System.Threading.Thread(() =>
+            {
+                System.Threading.Thread.Sleep(timeout);
+                handler(new MethodInvoker(() => this.Visible = false));
+            })
+            { IsBackground = true }.Start();
+        }
     }
 }

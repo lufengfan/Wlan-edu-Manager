@@ -120,10 +120,6 @@
     <None Include="PublicKey.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BugReport\BugReport.csproj">
-      <Project>{49e012ed-a8a5-405d-913d-14914e19f26d}</Project>
-      <Name>BugReport</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ctrllib\ctrllib.csproj">
       <Project>{5f62ed31-d8ae-40ae-9bb9-318dc935f6f2}</Project>
       <Name>ctrllib</Name>

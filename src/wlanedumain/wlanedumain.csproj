@@ -39,8 +39,8 @@
     <AssemblyOriginatorKeyFile>PublicKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HtmlAgilityPack, Version=1.6.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.6.6\lib\Net20\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.6.7.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.6.7\lib\Net20\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="ManagedWifi">
       <HintPath>..\package-temp\managedwifi.1.1.0\ManagedWifi.dll</HintPath>
@@ -82,6 +82,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\ThisAssembly.cs" />
     <Compile Include="ErrorHandleHelper.cs" />
+    <Compile Include="SamLu\ChangedEventSeries.cs" />
     <Compile Include="SamLu\Native\Wifi\ConnectionState.cs" />
     <Compile Include="SamLu\Native\Wifi\WifiScanningCompletedEventArgs.cs" />
     <Compile Include="SamLu\Native\Wifi\WIFISSID.cs" />

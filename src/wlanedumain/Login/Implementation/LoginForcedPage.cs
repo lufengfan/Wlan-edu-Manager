@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
 {
@@ -37,7 +38,19 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
 
         public ILoginInfoPage Cancel()
         {
-            throw new NotImplementedException();
+            var query = new
+            {
+                wlanacname = this.wlanAcName,
+                wlanacip = "",
+                wlanuserip = this.wlanUserIp,
+                ssid = ""
+            };
+            return new LoginInfoPage($"{this.scriptVariants["httpBase"]}{this.scriptVariants["ctxPath"]}/index.wlan?{query.SerializeData()}", this.encoding)
+            {
+                wlanAcName = this.wlanAcName,
+                wlanUserIp = this.wlanUserIp,
+                scriptVariants = this.scriptVariants
+            };
         }
 
         public IManagerPage ForceLogin()
@@ -46,7 +59,20 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(form.Submit(this.encoding));
 
-            throw new NotImplementedException();
+            form = doc.DocumentNode.SelectSingleNode($"//form[@name='{LoginingPage.FORM_NAME}']");
+            if (form != null)
+            {
+                doc = new HtmlDocument();
+                doc.LoadHtml(form.Submit(this.encoding));
+                return new LoginingPage(doc)
+                {
+                    wlanAcName = this.wlanAcName,
+                    wlanUserIp = this.wlanUserIp,
+                    scriptVariants = this.scriptVariants
+                };
+            }
+            else
+                throw new NotImplementedException();
         }
     }
 }

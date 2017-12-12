@@ -33,6 +33,10 @@ namespace SamLu.Tools.Wlan_edu_Manager
         /// Wlan-edu 的用户 IP 地址。
         /// </summary>
         protected internal string wlanUserIp;
+        /// <summary>
+        /// Wlan-edu URL 的基本组成部分。
+        /// </summary>
+        protected internal IDictionary<string, object> scriptVariants;
 
         /// <summary>
         /// 获取 <see cref="ManagerPage"/> 的 HTML 源代码。

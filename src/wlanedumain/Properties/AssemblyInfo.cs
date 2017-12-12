@@ -38,3 +38,4 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("Login, PublicKey=" + ThisAssembly.PublicKey)]
 [assembly: InternalsVisibleTo("Logout, PublicKey=" + ThisAssembly.PublicKey)]
 [assembly: InternalsVisibleTo("ManagerGUI.WPF, PublicKey=" + ThisAssembly.PublicKey)]
+[assembly: InternalsVisibleTo("ManagerGUI.WinForm, PublicKey=" + ThisAssembly.PublicKey)]
