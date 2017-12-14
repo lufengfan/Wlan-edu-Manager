@@ -10,9 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace SamLu.Tools.Wlan_edu_Manager
+namespace SamLu.Tools.Wlan_edu_Manager.Implementation
 {
-    public class Wlan_eduManager
+    public class Wlan_eduManager : IWlan_eduManager
     {
         private IManagerPage page;
 
@@ -29,6 +29,26 @@ namespace SamLu.Tools.Wlan_edu_Manager
         {
             this.page = Wlan_eduManager.CreateLoginInfoPageWithoutInitialize(wlanAcName, wlanUserIp, url, encoding);
             this.page.Initialize();
+        }
+
+        public ILoginInfoPage CreateLoginInfoPage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ILoginInfoPage CreateLoginInfoPage(string wlanAcName, string wlanUserIp)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ILogoutInfoPage CreateLogoutInfoPage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ILogoutInfoPage CreateLogoutInfoPage(string wlanAcName, string wlanUserIp)
+        {
+            throw new NotImplementedException();
         }
 
         public static ILoginInfoPage CreateLoginInfoPageWithoutInitialize(string wlanAcName, string wlanUserIp, string url, Encoding encoding)
@@ -107,13 +127,5 @@ namespace SamLu.Tools.Wlan_edu_Manager
 
             return miliseconds;
         }
-
-        public class CancelArgs
-        {
-            public bool Cancel { get; set; } = false;
-        }
-
-        public delegate IManagerPage ChangePageHandler(IManagerPage page, CancelArgs e);
-        public delegate void CallbackHandler(IManagerPage page, CancelArgs e);
     }
 }

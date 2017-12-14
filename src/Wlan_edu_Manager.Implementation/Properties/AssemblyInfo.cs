@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("wlanedumain")]
-[assembly: AssemblyDescription("Wlan-edu Manager Main Lib.")]
+[assembly: AssemblyTitle("Wlan_edu_Manager.Implementation")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Sam Lu")]
-[assembly: AssemblyProduct("wlanedumain")]
-[assembly: AssemblyCopyright("Copyright © Sam Lu 2017")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Wlan_edu_Manager.Implementation")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("39fbcee5-88d6-481f-86b0-c7fd266378c1")]
+[assembly: Guid("c0670ede-41b6-42ed-9090-7ebab4e5e5c1")]
 
 // 程序集的版本信息由下列四个值组成: 
 //
@@ -35,4 +35,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: InternalsVisibleTo("Wlan_eduManager.Implementation, PublicKey=" + ThisAssembly.PublicKey)]
+[assembly: InternalsVisibleTo("Login, PublicKey=" + ThisAssembly.PublicKey)]
+[assembly: InternalsVisibleTo("Logout, PublicKey=" + ThisAssembly.PublicKey)]
+[assembly: InternalsVisibleTo("ManagerGUI.WPF, PublicKey=" + ThisAssembly.PublicKey)]
+[assembly: InternalsVisibleTo("ManagerGUI.WinForm, PublicKey=" + ThisAssembly.PublicKey)]

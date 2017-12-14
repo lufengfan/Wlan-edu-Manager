@@ -42,7 +42,7 @@
     <Reference Include="HtmlAgilityPack, Version=1.6.7.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.6.7\lib\Net20\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="ManagedWifi">
+    <Reference Include="ManagedWifi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\package-temp\managedwifi.1.1.0\ManagedWifi.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -57,16 +57,13 @@
     <Compile Include="FetchTemporaryPwdEventSeries.cs" />
     <Compile Include="IManagerPage.cs" />
     <Compile Include="IManagerPageContainer.cs" />
+    <Compile Include="IWlan_eduManager.cs" />
     <Compile Include="LoginEventSeries.cs" />
     <Compile Include="Login\ILoginFailedPage.cs" />
     <Compile Include="Login\ILoginForcedPage.cs" />
     <Compile Include="Login\ILoginInfoPage.cs" />
     <Compile Include="Login\ILoginingPage.cs" />
     <Compile Include="Login\ILoginSucceededPage.cs" />
-    <Compile Include="Login\Implementation\LoginForcedPage.cs" />
-    <Compile Include="Login\Implementation\LoginInfoPage.cs" />
-    <Compile Include="Login\Implementation\LoginingPage.cs" />
-    <Compile Include="Login\Implementation\LoginSucceededPage.cs" />
     <Compile Include="Login\LoginInfo.cs" />
     <Compile Include="LogoutEventSeries.cs" />
     <Compile Include="Logout\ILogoutFailedPage.cs" />
@@ -74,21 +71,17 @@
     <Compile Include="Logout\ILogoutingPage.cs" />
     <Compile Include="Logout\ILogoutSucceededPage.cs" />
     <Compile Include="Logout\LogoutInfo.cs" />
-    <Compile Include="Logout\Implementation\LogoutInfoPage.cs" />
-    <Compile Include="Logout\Implementation\LogoutingPage.cs" />
-    <Compile Include="Logout\Implementation\LogoutSucceededPage.cs" />
-    <Compile Include="ManagerPage.cs" />
     <Compile Include="ManagerPageType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\ThisAssembly.cs" />
     <Compile Include="ErrorHandleHelper.cs" />
+    <Compile Include="SamLu\CancelEventArgs.cs" />
     <Compile Include="SamLu\ChangedEventSeries.cs" />
     <Compile Include="SamLu\Native\Wifi\ConnectionState.cs" />
     <Compile Include="SamLu\Native\Wifi\WifiScanningCompletedEventArgs.cs" />
     <Compile Include="SamLu\Native\Wifi\WIFISSID.cs" />
     <Compile Include="SamLu\Native\Wifi\WifiWatcher.cs" />
     <Compile Include="SamLu\Web\HttpRequestUtil.cs" />
-    <Compile Include="Wlan_eduManager.cs" />
     <Compile Include="Wlan_eduNotConnectedException.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -115,8 +108,8 @@ cd "$(SolutionDir)package-temp\managedwifi.1.1.0\"
 if not exist "ManagedWifi.dll" (
   copy "$(SolutionDir)packages\managedwifi.1.1.0\lib\net20"
   
-  "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\ildasm.exe" "ManagedWifi.dll" /out:"ManagedWifi.il"
-  "C:\Windows\Microsoft.NET\Framework64\v2.0.50727\ilasm.exe" "ManagedWifi.il" /dll /resource="ManagedWifi.res" /key="$(SolutionDir)PublicKey.snk" /optimize /debug
+  "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\ildasm.exe" "ManagedWifi.dll" /out:"ManagedWifi.il" /utf8
+  "C:\Windows\Microsoft.NET\Framework64\v2.0.50727\ilasm.exe" "ManagedWifi.il" /dll /resource="ManagedWifi.res" /key="$(SolutionDir)PublicKey.snk" /quiet /optimize /debug
 )
 
 cd "$(TargetDir)"</PreBuildEvent>

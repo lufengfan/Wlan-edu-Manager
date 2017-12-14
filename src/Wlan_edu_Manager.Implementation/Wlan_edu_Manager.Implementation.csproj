@@ -4,30 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{698865CE-66FE-4A6F-A10C-572E21EF2141}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>SamLu.Tools.Wlan_edu_Manager.Login</RootNamespace>
-    <AssemblyName>Login</AssemblyName>
+    <ProjectGuid>{C0670EDE-41B6-42ED-9090-7EBAB4E5E5C1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SamLu.Tools.Wlan_edu_Manager</RootNamespace>
+    <AssemblyName>Wlan_edu_Manager.Implementation</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -35,19 +20,16 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Wlan_edu_Manager.Implementation.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <DocumentationFile>bin\Release\Wlan_edu_Manager.Implementation.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -55,12 +37,9 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>PublicKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommandLineInfo.Core">
-      <HintPath>..\..\static\CommandLineInfo.Core.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.6.7.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.6.7\lib\Net20\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -70,45 +49,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandLine\Console.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Login\Implementation\LoginForcedPage.cs" />
+    <Compile Include="Login\Implementation\LoginInfoPage.cs" />
+    <Compile Include="Login\Implementation\LoginingPage.cs" />
+    <Compile Include="Login\Implementation\LoginSucceededPage.cs" />
+    <Compile Include="Logout\Implementation\LogoutInfoPage.cs" />
+    <Compile Include="Logout\Implementation\LogoutingPage.cs" />
+    <Compile Include="Logout\Implementation\LogoutSucceededPage.cs" />
+    <Compile Include="Implementation\ManagerPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Implementation\Wlan_eduManager.cs" />
+    <Compile Include="Properties\ThisAssembly.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.manifest" />
-    <Compile Include="Program.errorhandling.cs" />
+    <None Include="packages.config" />
     <None Include="PublicKey.snk" />
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BugReport\BugReport.csproj">
-      <Project>{49e012ed-a8a5-405d-913d-14914e19f26d}</Project>
-      <Name>BugReport</Name>
-    </ProjectReference>
     <ProjectReference Include="..\wlanedumain\wlanedumain.csproj">
       <Project>{39fbcee5-88d6-481f-86b0-c7fd266378c1}</Project>
       <Name>wlanedumain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Wlan_edu_Manager.Implementation\Wlan_edu_Manager.Implementation.csproj">
-      <Project>{C0670EDE-41B6-42ED-9090-7EBAB4E5E5C1}</Project>
-      <Name>Wlan_edu_Manager.Implementation</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>if not exist "$(SolutionDir)..\bin\" (md "$(SolutionDir)..\bin\")
 
 copy "$(TargetPath)" "$(SolutionDir)..\bin\"
 copy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)..\bin\"
-
-if not exist "$(SolutionDir)..\bin\CommandLineInfo.Core.dll" (
-  copy "$(TargetDir)CommandLineInfo.Core.*" "$(SolutionDir)..\bin\"
-)</PostBuildEvent>
+copy "$(TargetDir)$(TargetName).xml" "$(SolutionDir)..\bin\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -126,6 +126,10 @@
       <Project>{39fbcee5-88d6-481f-86b0-c7fd266378c1}</Project>
       <Name>wlanedumain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Wlan_edu_Manager.Implementation\Wlan_edu_Manager.Implementation.csproj">
+      <Project>{C0670EDE-41B6-42ED-9090-7EBAB4E5E5C1}</Project>
+      <Name>Wlan_edu_Manager.Implementation</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\login.ico" />
@@ -160,6 +164,9 @@ copy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)..\bin\"
 
 if not exist "$(SolutionDir)..\bin\CommandLineInfo.Core.dll" (
   copy "$(TargetDir)CommandLineInfo.Core.*" "$(SolutionDir)..\bin\"
-)</PostBuildEvent>
+)
+
+
+copy "$(TargetDir)Newtonsoft.Json.*" "$(SolutionDir)..\bin\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

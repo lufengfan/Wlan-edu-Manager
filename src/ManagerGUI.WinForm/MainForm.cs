@@ -10,8 +10,6 @@ using System.Windows.Forms;
 using System.Collections;
 using SamLu.Tools.Wlan_edu_Manager.Login;
 using SamLu.Tools.Wlan_edu_Manager.Logout;
-using SamLu.Tools.Wlan_edu_Manager.Login.Implementation;
-using SamLu.Tools.Wlan_edu_Manager.Logout.Implementation;
 
 namespace SamLu.Tools.Wlan_edu_Manager.GUI
 {
@@ -154,46 +152,20 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
         private void cmsNotifyIcon_tsmiLogin_Click(object sender, EventArgs e)
         {
             this.Switch(this.loginInfoPagePanel);
-
-            ManagerPage currentPage = (ManagerPage)Program.manager.CurrentPage;
-            if (!(currentPage is ILoginInfoPage))
+            
+            if (!(Program.manager.CurrentPage is ILoginInfoPage))
             {
-                Program.manager.NextPage((page, _e) =>
-                {
-                    DateTime currentTime = DateTime.Now;
-                    var scriptVariants = currentPage.scriptVariants;
-                    return new LoginInfoPage(string.Empty)
-                    {
-                        wlanAcName = currentPage.wlanAcName,
-                        wlanUserIp = currentPage.wlanUserIp,
-                        scriptVariants = currentPage.scriptVariants,
-                        currentTime = currentTime,
-                        loginActionAddress = $"{scriptVariants["httpBase"]}{scriptVariants["ctxPath"]}/portalLogin.wlan?{Wlan_eduManager.GetMiliseconds(currentTime)}",
-                        fetchTemporaryPwdAddress = $"{scriptVariants["httpBase"]}{scriptVariants["ctxPath"]}/portalApplyPwd.wlan"
-                    };
-                });
+                Program.manager.NextPage((page, _e) =>Program.manager.CreateLoginInfoPage());
             }
         }
 
         private void cmsNotifyIcon_tsmiLogout_Click(object sender, EventArgs e)
         {
             this.Switch(this.logoutInfoPagePanel);
-
-            ManagerPage currentPage = (ManagerPage)Program.manager.CurrentPage;
-            if (!(currentPage is ILogoutInfoPage))
+            
+            if (!(Program.manager.CurrentPage is ILogoutInfoPage))
             {
-                Program.manager.NextPage((page, _e) => {
-                    DateTime currentTime = DateTime.Now;
-                    var scriptVariants = currentPage.scriptVariants;
-                    return new LogoutInfoPage(string.Empty)
-                    {
-                        wlanAcName = currentPage.wlanAcName,
-                        wlanUserIp = currentPage.wlanUserIp,
-                        scriptVariants = currentPage.scriptVariants,
-                        currentTime = currentTime,
-                        loginActionAddress = $"{scriptVariants["httpBase"]}{scriptVariants["ctxPath"]}/portalLogout.wlan?isCloseWindow=N&{Wlan_eduManager.GetMiliseconds(currentTime)}"
-                    };
-                });
+                Program.manager.NextPage((page, _e) => Program.manager.CreateLogoutInfoPage());
             }
         }
 

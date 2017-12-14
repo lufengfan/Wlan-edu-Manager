@@ -156,9 +156,8 @@ cd "$(SolutionDir)package-temp\Hardcodet.NotifyIcon.Wpf.1.0.8\"
 if not exist "Hardcodet.Wpf.TaskbarNotification.dll" (
   copy "$(SolutionDir)packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net35"
   
-  "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\ildasm.exe" "Hardcodet.Wpf.TaskbarNotification.dll" /out:"Hardcodet.Wpf.TaskbarNotification.il"
-  "C:\Windows\Microsoft.NET\Framework64\v2.0.50727\ilasm.exe" "Hardcodet.Wpf.TaskbarNotification.il" /dll /resource="Hardcodet.Wpf.TaskbarNotification.res" /key="$(SolutionDir)PublicKey.snk" /optimize /debug
-  "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\sn.exe" -v "Hardcodet.Wpf.TaskbarNotification.dll"
+  "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\ildasm.exe" "Hardcodet.Wpf.TaskbarNotification.dll" /out:"Hardcodet.Wpf.TaskbarNotification.il" /utf8
+  "C:\Windows\Microsoft.NET\Framework64\v2.0.50727\ilasm.exe" "Hardcodet.Wpf.TaskbarNotification.il" /dll /resource="Hardcodet.Wpf.TaskbarNotification.res" /key="$(SolutionDir)PublicKey.snk" /quiet /optimize /debug
 )
 
 cd "$(TargetDir)"</PreBuildEvent>

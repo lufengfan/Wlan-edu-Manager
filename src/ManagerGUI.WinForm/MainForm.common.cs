@@ -117,7 +117,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
             );
         }
 
-        private void manager_Callback(IManagerPage page, Wlan_eduManager.CancelArgs _e)
+        private void manager_Callback(IManagerPage page, CancelArgs _e)
         {
             if (page is ILoginInfoPage)
                 this.Switch(ManagerPageType.LoginInfo);

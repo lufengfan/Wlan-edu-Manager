@@ -1,4 +1,5 @@
-﻿using SamLu.Tools.Wlan_edu_Manager.Login.Implementation;
+﻿using SamLu.Tools.Wlan_edu_Manager.Implementation;
+using SamLu.Tools.Wlan_edu_Manager.Login.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
 {
     internal class Program
     {
-        internal static Wlan_eduManager manager;
+        internal static IWlan_eduManager manager;
 
         static Program()
         {
@@ -72,7 +73,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                         scriptVariants = new Dictionary<string, object>()
                         {
                             { "httpBase", "https://211.138.125.52:7090" },
-                            {"ctxPath", "/zmcc" }
+                            { "ctxPath", "/zmcc" }
                         },
                         currentTime = currentTime,
                         loginActionAddress = $"https://211.138.125.52:7090/zmcc/portalLogin.wlan?{Wlan_eduManager.GetMiliseconds(currentTime)}",

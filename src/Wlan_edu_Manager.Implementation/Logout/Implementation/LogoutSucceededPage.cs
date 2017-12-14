@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using SamLu.Tools.Wlan_edu_Manager.Implementation;
 using SamLu.Tools.Wlan_edu_Manager.Login.Implementation;
 using SamLu.Web;
 using System;

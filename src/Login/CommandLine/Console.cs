@@ -1,4 +1,5 @@
 ﻿using CommandLineInfo.Core.ComponentModel1;
+using SamLu.Tools.Wlan_edu_Manager.Implementation;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,7 +50,11 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.CommandLine
                 if (!autologin && cancelautologin) cancelautologin = false;
                 else if (autologin && !cancelautologin) autologin = false;
 
-                new Program().Run(username, userpwd, autologin, cancelautologin);
+                new Program()
+                {
+                    manager = Wlan_eduManager.CreateManagerFromRedirection()
+                }
+                .Run(username, userpwd, autologin, cancelautologin);
                 return 0;
             }
             else

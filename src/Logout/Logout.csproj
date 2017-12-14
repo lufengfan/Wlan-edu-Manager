@@ -68,6 +68,10 @@
       <Project>{39fbcee5-88d6-481f-86b0-c7fd266378c1}</Project>
       <Name>wlanedumain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Wlan_edu_Manager.Implementation\Wlan_edu_Manager.Implementation.csproj">
+      <Project>{c0670ede-41b6-42ed-9090-7ebab4e5e5c1}</Project>
+      <Name>Wlan_edu_Manager.Implementation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

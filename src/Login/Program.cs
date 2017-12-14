@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using static SamLu.Tools.Wlan_edu_Manager.Wlan_eduManager;
 
 namespace SamLu.Tools.Wlan_edu_Manager.Login
 {
     internal sealed partial class Program
     {
+        internal IWlan_eduManager manager;
+
         public const string SSID_Wlan_edu = "Wlan-edu";
         
         public bool UserNameMask { get; set; } = true;
@@ -39,12 +40,11 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login
             WifiWatcher.GetNativeWifi(out WIFISSID currentSsid, out WIFISSID[] ssids);
             if (currentSsid == null || currentSsid.SSID != SSID_Wlan_edu)
                 throw new Wlan_eduNotConnectedException();
-
-            Wlan_eduManager manager = Wlan_eduManager.CreateManagerFromRedirection();
-            while (manager.NextPage(this.manager_ChangePage, this.manager_callback)) ;
+            
+            while (this.manager.NextPage(this.manager_ChangePage, this.manager_callback)) ;
         }
 
-        private IManagerPage manager_ChangePage(IManagerPage page, Wlan_eduManager.CancelArgs e)
+        private IManagerPage manager_ChangePage(IManagerPage page, CancelArgs e)
         {
             if (page is ILoginInfoPage)
             {
