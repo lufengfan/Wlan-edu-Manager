@@ -17,7 +17,9 @@ namespace SamLu.Tools.Wlan_edu_Manager.Implementation
         private IManagerPage page;
 
         public IManagerPage CurrentPage => this.page;
-        
+
+        protected Wlan_eduManager() { }
+
         public Wlan_eduManager(IManagerPage firstPage)
         {
             this.page = firstPage;
@@ -31,22 +33,22 @@ namespace SamLu.Tools.Wlan_edu_Manager.Implementation
             this.page.Initialize();
         }
 
-        public ILoginInfoPage CreateLoginInfoPage()
+        public virtual ILoginInfoPage CreateLoginInfoPage()
         {
             throw new NotImplementedException();
         }
 
-        public ILoginInfoPage CreateLoginInfoPage(string wlanAcName, string wlanUserIp)
+        public virtual ILoginInfoPage CreateLoginInfoPage(string wlanAcName, string wlanUserIp)
         {
             throw new NotImplementedException();
         }
 
-        public ILogoutInfoPage CreateLogoutInfoPage()
+        public virtual ILogoutInfoPage CreateLogoutInfoPage()
         {
             throw new NotImplementedException();
         }
 
-        public ILogoutInfoPage CreateLogoutInfoPage(string wlanAcName, string wlanUserIp)
+        public virtual ILogoutInfoPage CreateLogoutInfoPage(string wlanAcName, string wlanUserIp)
         {
             throw new NotImplementedException();
         }
@@ -101,7 +103,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.Implementation
             return new Wlan_eduManager(wlanAcName, wlanUserIp, url, encoding);
         }
         
-        public bool NextPage(ChangePageHandler changePage, CallbackHandler callback = null)
+        public virtual bool NextPage(ChangePageHandler changePage, CallbackHandler callback = null)
         {
             if (changePage == null) throw new ArgumentNullException(nameof(changePage));
 
@@ -117,7 +119,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.Implementation
             else return false;
         }
 
-        internal static long GetMiliseconds(DateTime dateTime)
+        protected internal static long GetMiliseconds(DateTime dateTime)
         {
             DateTime logout_dt = dateTime;
             TimeSpan span = logout_dt - new DateTime(1970, 1, 1);

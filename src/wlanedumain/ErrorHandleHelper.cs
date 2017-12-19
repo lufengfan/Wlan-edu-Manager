@@ -183,6 +183,7 @@ namespace SamLu.Tools.Wlan_edu_Manager
                             object property_value = property.GetValue(o, null);
                             if (o is Exception && property.Name == "InnerException" && property_value != null)
                             {
+                                property_element.AppendChild(property_element = doc.CreateElement("Exception"));
                                 property_element.SetAttribute("type", property_value.GetType().FullName);
                             }
 

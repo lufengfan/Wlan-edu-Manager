@@ -55,6 +55,9 @@
             this.cmsNotifyIcon_tsmiLogout = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsNotifyIcon_tsmiSeperator1 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsNotifyIcon_tsmiSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsNotifyIcon_tsmiAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsNotifyIcon_tsmiSeperator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.cmsNotifyIcon_tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
             this.loginSucceededPagePanel = new SamLu.Tools.Wlan_edu_Manager.GUI.LightLoginSucceededPagePanel();
             this.lblWlanInfos = new System.Windows.Forms.Label();
             this.lblLoginDuration = new System.Windows.Forms.Label();
@@ -336,7 +339,7 @@
             // 
             this.notifyIcon.ContextMenuStrip = this.cmsNotifyIcon;
             this.notifyIcon.Visible = true;
-            this.notifyIcon.Click += new System.EventHandler(this.notifyIcon_Click);
+            this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
             // 
             // cmsNotifyIcon
             // 
@@ -344,16 +347,21 @@
             this.cmsNotifyIcon_tsmiLogin,
             this.cmsNotifyIcon_tsmiLogout,
             this.cmsNotifyIcon_tsmiSeperator1,
-            this.cmsNotifyIcon_tsmiSettings});
+            this.cmsNotifyIcon_tsmiSettings,
+            this.cmsNotifyIcon_tsmiAbout,
+            this.cmsNotifyIcon_tsmiSeperator2,
+            this.cmsNotifyIcon_tsmiExit});
             this.cmsNotifyIcon.Name = "cmsNotifyIcon";
-            this.cmsNotifyIcon.Size = new System.Drawing.Size(119, 76);
+            this.cmsNotifyIcon.Size = new System.Drawing.Size(200, 148);
             // 
             // cmsNotifyIcon_tsmiLogin
             // 
             this.cmsNotifyIcon_tsmiLogin.CheckOnClick = true;
             this.cmsNotifyIcon_tsmiLogin.Image = global::SamLu.Tools.Wlan_edu_Manager.GUI.Properties.Resources.login_png;
             this.cmsNotifyIcon_tsmiLogin.Name = "cmsNotifyIcon_tsmiLogin";
-            this.cmsNotifyIcon_tsmiLogin.Size = new System.Drawing.Size(118, 22);
+            this.cmsNotifyIcon_tsmiLogin.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.I)));
+            this.cmsNotifyIcon_tsmiLogin.Size = new System.Drawing.Size(199, 22);
             this.cmsNotifyIcon_tsmiLogin.Text = "登录(&I)";
             this.cmsNotifyIcon_tsmiLogin.Click += new System.EventHandler(this.cmsNotifyIcon_tsmiLogin_Click);
             // 
@@ -362,21 +370,43 @@
             this.cmsNotifyIcon_tsmiLogout.CheckOnClick = true;
             this.cmsNotifyIcon_tsmiLogout.Image = global::SamLu.Tools.Wlan_edu_Manager.GUI.Properties.Resources.logout_png;
             this.cmsNotifyIcon_tsmiLogout.Name = "cmsNotifyIcon_tsmiLogout";
-            this.cmsNotifyIcon_tsmiLogout.Size = new System.Drawing.Size(118, 22);
+            this.cmsNotifyIcon_tsmiLogout.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
+            this.cmsNotifyIcon_tsmiLogout.Size = new System.Drawing.Size(199, 22);
             this.cmsNotifyIcon_tsmiLogout.Text = "下线(&O)";
             this.cmsNotifyIcon_tsmiLogout.Click += new System.EventHandler(this.cmsNotifyIcon_tsmiLogout_Click);
             // 
             // cmsNotifyIcon_tsmiSeperator1
             // 
             this.cmsNotifyIcon_tsmiSeperator1.Name = "cmsNotifyIcon_tsmiSeperator1";
-            this.cmsNotifyIcon_tsmiSeperator1.Size = new System.Drawing.Size(115, 6);
+            this.cmsNotifyIcon_tsmiSeperator1.Size = new System.Drawing.Size(196, 6);
             // 
             // cmsNotifyIcon_tsmiSettings
             // 
             this.cmsNotifyIcon_tsmiSettings.Image = global::SamLu.Tools.Wlan_edu_Manager.GUI.Properties.Resources.settings_png;
             this.cmsNotifyIcon_tsmiSettings.Name = "cmsNotifyIcon_tsmiSettings";
-            this.cmsNotifyIcon_tsmiSettings.Size = new System.Drawing.Size(118, 22);
+            this.cmsNotifyIcon_tsmiSettings.Size = new System.Drawing.Size(199, 22);
             this.cmsNotifyIcon_tsmiSettings.Text = "设置(&S)";
+            // 
+            // cmsNotifyIcon_tsmiAbout
+            // 
+            this.cmsNotifyIcon_tsmiAbout.Name = "cmsNotifyIcon_tsmiAbout";
+            this.cmsNotifyIcon_tsmiAbout.Size = new System.Drawing.Size(199, 22);
+            this.cmsNotifyIcon_tsmiAbout.Text = "关于(&A)";
+            // 
+            // cmsNotifyIcon_tsmiSeperator2
+            // 
+            this.cmsNotifyIcon_tsmiSeperator2.Name = "cmsNotifyIcon_tsmiSeperator2";
+            this.cmsNotifyIcon_tsmiSeperator2.Size = new System.Drawing.Size(196, 6);
+            // 
+            // cmsNotifyIcon_tsmiExit
+            // 
+            this.cmsNotifyIcon_tsmiExit.Image = global::SamLu.Tools.Wlan_edu_Manager.GUI.Properties.Resources.exit_png;
+            this.cmsNotifyIcon_tsmiExit.Name = "cmsNotifyIcon_tsmiExit";
+            this.cmsNotifyIcon_tsmiExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.cmsNotifyIcon_tsmiExit.Size = new System.Drawing.Size(199, 22);
+            this.cmsNotifyIcon_tsmiExit.Text = "退出(&X)";
+            this.cmsNotifyIcon_tsmiExit.Click += new System.EventHandler(this.cmsNotifyIcon_tsmiExit_Click);
             // 
             // loginSucceededPagePanel
             // 
@@ -453,6 +483,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.loginInfoPagePanel.ResumeLayout(false);
             this.loginInfoPagePanel.PerformLayout();
@@ -497,5 +528,8 @@
         private System.Windows.Forms.Label lblLoginDuration;
         private System.Windows.Forms.Label lblWlanInfos;
         private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.ToolStripMenuItem cmsNotifyIcon_tsmiAbout;
+        private System.Windows.Forms.ToolStripSeparator cmsNotifyIcon_tsmiSeperator2;
+        private System.Windows.Forms.ToolStripMenuItem cmsNotifyIcon_tsmiExit;
     }
 }

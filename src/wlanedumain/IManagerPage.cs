@@ -11,11 +11,6 @@ namespace SamLu.Tools.Wlan_edu_Manager
     public interface IManagerPage
     {
         /// <summary>
-        /// 获取 <see cref="IManagerPage"/> 的 HTML 源代码。
-        /// </summary>
-        string Source { get; }
-
-        /// <summary>
         /// 初始化 <see cref="IManagerPage"/> 。
         /// </summary>
         void Initialize();

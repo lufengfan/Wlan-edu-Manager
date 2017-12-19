@@ -49,6 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\Components\LoginForcedPageComponent.cs" />
+    <Compile Include="Implementation\Components\LoginInfoPageComponent.cs" />
+    <Compile Include="Implementation\Components\LogoutInfoPageComponent.cs" />
+    <Compile Include="Implementation\Components\ManagerPageComponent.cs" />
+    <Compile Include="Implementation\Components\Wlan_eduManagerComponent.cs" />
     <Compile Include="Login\Implementation\LoginForcedPage.cs" />
     <Compile Include="Login\Implementation\LoginInfoPage.cs" />
     <Compile Include="Login\Implementation\LoginingPage.cs" />

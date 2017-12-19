@@ -142,11 +142,14 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                 Environment.NewLine
             );
         }
-
-        private void notifyIcon_Click(object sender, EventArgs e)
+        
+        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
         {
-            this.Show();
-            this.ShowInTaskbar = true;
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Show();
+                this.ShowInTaskbar = true;
+            }
         }
 
         private void cmsNotifyIcon_tsmiLogin_Click(object sender, EventArgs e)
@@ -167,6 +170,11 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
             {
                 Program.manager.NextPage((page, _e) => Program.manager.CreateLogoutInfoPage());
             }
+        }
+
+        private void cmsNotifyIcon_tsmiExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void MainForm_CurrentPagePanelChanged(object sender, ManagerPagePanelChangedEventArgs e)
@@ -253,6 +261,45 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                         this.notifyIcon.Text = "Wlan-edu 下线";
                     }
                     this.statusBar.StatusBarState = StatusBarState.None;
+                }
+            }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.CurrentPage == ManagerPageType.LoginSucceeded)
+            {
+                var panel = (LoginSucceededPagePanel)this.CurrentPagePanel;
+                switch (
+                    MessageBox.Show(
+                        $"用户{panel.UserName}处于登录状态，是否强制下线？{Environment.NewLine}\t是——强制下线{Environment.NewLine}\t否——正常下线{Environment.NewLine}\t取消——取消下线", "退出",
+                        MessageBoxButtons.YesNoCancel,
+                        MessageBoxIcon.Warning,
+                        MessageBoxDefaultButton.Button2)
+                )
+                {
+                    case DialogResult.Yes:
+                        e.Cancel = false;
+                        break;
+                    case DialogResult.No:
+                        try
+                        {
+                            typeof(LoginSucceededPagePanel)
+                                                .GetMethod("OnLogout", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+                                                .Invoke(this.CurrentPagePanel, new object[] { new LogoutEventArgs(panel.UserName, panel.CancelAutoLogin) });
+                        }
+                        catch (Exception)
+                        {
+                            new System.Threading.Thread(() =>
+                                MessageBox.Show("下线过程中发生错误。", "下线", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
+                            )
+                            { IsBackground = true }.Start();
+                        }
+                        e.Cancel = false;
+                        break;
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        break;
                 }
             }
         }
