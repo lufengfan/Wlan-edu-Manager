@@ -113,10 +113,10 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
         [Description("表示登录的事件。")]
         public event LoginEventHandler Login;
 
-        protected virtual void OnFetchTemporaryPwd(FetchTemporaryPwdEventArgs e) =>
+        protected internal virtual void OnFetchTemporaryPwd(FetchTemporaryPwdEventArgs e) =>
             this.FetchTemporaryPwd?.Invoke(this, e);
 
-        protected virtual void OnLogin(LoginEventArgs e) =>
+        protected internal virtual void OnLogin(LoginEventArgs e) =>
             this.Login?.Invoke(this, e);
 
         public LoginInfoPagePanel() : base()

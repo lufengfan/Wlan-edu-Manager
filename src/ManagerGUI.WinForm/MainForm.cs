@@ -46,9 +46,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
 
             if (isAutoLogin)
             {
-                typeof(LoginInfoPagePanel)
-                    .GetMethod("OnLogin", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                    .Invoke(this.loginInfoPagePanel, new object[] { new LoginEventArgs(userName, userPwd, true, true) });
+                this.loginInfoPagePanel.OnLogin(new LoginEventArgs(userName, userPwd, true, true));
             }
         }
 
@@ -284,9 +282,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                     case DialogResult.No:
                         try
                         {
-                            typeof(LoginSucceededPagePanel)
-                                                .GetMethod("OnLogout", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                                                .Invoke(this.CurrentPagePanel, new object[] { new LogoutEventArgs(panel.UserName, panel.CancelAutoLogin) });
+                            panel.OnLogout(new LogoutEventArgs(panel.UserName, panel.CancelAutoLogin));
                         }
                         catch (Exception)
                         {

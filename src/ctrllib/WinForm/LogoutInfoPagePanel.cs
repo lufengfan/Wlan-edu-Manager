@@ -64,7 +64,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm
             ));
         }
 
-        protected virtual void OnLogout(LogoutEventArgs e) =>
+        protected internal virtual void OnLogout(LogoutEventArgs e) =>
             this.Logout?.Invoke(this, e);
 
         [Description("表示登出的事件。")]
