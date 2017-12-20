@@ -34,7 +34,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.Implementation.Components
                 //AddressFamily.InterNetworkV6表示此地址为IPv6类型
                 var ipv4s = IpEntry.AddressList.Where(address => address.AddressFamily == AddressFamily.InterNetwork);
 
-                wlanUserIp = ipv4s.FirstOrDefault()?.ToString();
+                wlanUserIp = ipv4s.Select(ipv4 => ipv4.ToString()).Where(ipv4Str => !ipv4Str.StartsWith("192.168")).FirstOrDefault();
             }
             catch (Exception)
             {

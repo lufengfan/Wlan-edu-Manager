@@ -39,6 +39,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
             this.Icon = Properties.Resources.manager_ico;
             this.notifyIcon.Icon = Properties.Resources.manager_ico;
             this.CurrentPagePanelChanged += this.MainForm_CurrentPagePanelChanged;
+            this.CurrentPageChanged += this.MainForm_CurrentPageChanged;
 
             this.common_Initialize(userName, userPwd, isAutoLogin, cancelAutoLogin);
             
@@ -103,7 +104,12 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
             if (!this.IsSupport(page)) return;
 
             ManagerPageType currentPage = this.CurrentPage;
-            ManagerPagePanel panel = this.panels.FirstOrDefault(p => p.ManagerPageType == page);
+            ManagerPagePanel panel = this.panels.FirstOrDefault(p => {
+                if (page == ManagerPageType.LogoutSucceeded)
+                    return p.ManagerPageType == ManagerPageType.LoginInfo;
+                else
+                    return p.ManagerPageType == page;
+            });
             if (panel != null && this.panels.Contains(panel))
             {
                 panel.Enabled = true;
@@ -122,23 +128,27 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            TimeSpan timeSpan = DateTime.Now - ((ILoginSucceededPage)Program.manager.CurrentPage).SucceededTime;
-            this.lblLoginDuration.Text = 
-                string.Format("{0:D2} : {1:D2} : {2:D2}",
-                    (int)Math.Floor(timeSpan.TotalHours),
-                    timeSpan.Minutes,
-                    timeSpan.Seconds
-                );
+            try
+            {
+                TimeSpan timeSpan = DateTime.Now - ((ILoginSucceededPage)Program.manager.CurrentPage).SucceededTime;
+                this.lblLoginDuration.Text =
+                    string.Format("{0:D2} : {1:D2} : {2:D2}",
+                        (int)Math.Floor(timeSpan.TotalHours),
+                        timeSpan.Minutes,
+                        timeSpan.Seconds
+                    );
 
-            this.notifyIcon.Text = string.Format("用户({0})登陆成功{2}登录时长：>{1}",
-                this.loginSucceededPagePanel.UserName,
-                string.Format("{0:D2}:{1:D2}:{2:D2}",
-                    (int)Math.Floor(timeSpan.TotalHours),
-                    timeSpan.Minutes,
-                    timeSpan.Seconds
-                ),
-                Environment.NewLine
-            );
+                this.notifyIcon.Text = string.Format("用户({0})登陆成功{2}登录时长：>{1}",
+                    this.loginSucceededPagePanel.UserName,
+                    string.Format("{0:D2}:{1:D2}:{2:D2}",
+                        (int)Math.Floor(timeSpan.TotalHours),
+                        timeSpan.Minutes,
+                        timeSpan.Seconds
+                    ),
+                    Environment.NewLine
+                );
+            }
+            catch (Exception) { }
         }
         
         private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
@@ -175,16 +185,42 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
             this.Close();
         }
 
-        private void MainForm_CurrentPagePanelChanged(object sender, ManagerPagePanelChangedEventArgs e)
+        private void MainForm_CurrentPageChanged(object sender, ChangedEventArgs<ManagerPageType> e)
         {
-            if (e.OldValue != null)
+            if (e.OldValue == ManagerPageType.LoginSucceeded)
             {
-                if (e.OldValue == this.loginSucceededPagePanel)
-                {
-                    this.timer.Stop();
-                }
+                this.timer.Stop();
             }
 
+            if (e.NewValue == ManagerPageType.LogoutSucceeded)
+            {
+                // 在下线成功时更新用户信息。
+                #region 更新用户信息
+                var dic = CommandLine.Console.AccountDictionary;
+                string userName = null;
+                bool cancelAutoLogin = false;
+                if (e.OldValue == ManagerPageType.LoginSucceeded)
+                {
+                    userName = this.loginSucceededPagePanel.UserName;
+                    cancelAutoLogin = this.loginSucceededPagePanel.CancelAutoLogin;
+                }
+                else if (e.OldValue == ManagerPageType.LogoutInfo)
+                {
+                    userName = this.logoutInfoPagePanel.UserName;
+                    cancelAutoLogin = this.logoutInfoPagePanel.CancelAutoLogin;
+                }
+                if (dic.TryGetValue(userName, out var account))
+                {
+                    if (cancelAutoLogin)
+                        account.autologin = false;
+                    CommandLine.Console.SaveConfig();
+                }
+                #endregion
+            }
+        }
+
+        private void MainForm_CurrentPagePanelChanged(object sender, ManagerPagePanelChangedEventArgs e)
+        {
             if (e.NewValue != null)
             {
                 if (e.NewValue == this.loginSucceededPagePanel)
@@ -195,7 +231,8 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                     this.cmsNotifyIcon_tsmiLogout.Checked = false;
 
 
-                    #region 更新登录信息
+                    // 在登录成功时更新用户信息。
+                    #region 更新用户信息
                     var dic = CommandLine.Console.AccountDictionary;
                     CommandLine.Console._accounts._account account;
                     if (dic.ContainsKey(this.loginInfoPagePanel.UserName))
@@ -230,6 +267,15 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
 
 
                     this.loginSucceededPagePanel.userName = this.loginInfoPagePanel.UserName;
+                    if (this.loginInfoPagePanel.AutoLogin)
+                    {
+                        this.loginSucceeded_cbCancelAutoLogin.Enabled = true;
+                    }
+                    else
+                    {
+                        this.loginSucceeded_cbCancelAutoLogin.Enabled = false;
+                        this.loginSucceeded_cbCancelAutoLogin.Checked = false;
+                    }
 
                     this.statusBar.ShowStatus(5000, $"用户 {this.loginSucceededPagePanel.UserName} 成功登录。", this.Invoke);
 

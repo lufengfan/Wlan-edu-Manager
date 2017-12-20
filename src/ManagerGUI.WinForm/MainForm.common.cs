@@ -34,12 +34,30 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                 #region 自动填写登录信息
                 // 如果设置文件中当前用户的状态为记住密码
                 var dic = CommandLine.Console.AccountDictionary;
-                if (dic.ContainsKey(this.loginInfo_txtUserName.Text))
+                CommandLine.Console._accounts._account account = null;
+                if (dic.ContainsKey(txt.Text))
+                    account = dic[txt.Text];
+
+                if (txt == this.loginInfo_txtUserName)
                 {
-                    var account = dic[this.loginInfo_txtUserName.Text];
-                    this.txtUserPwd.Text = account.userpwd;
-                    this.cbRememberMe.Checked = account.rememberme;
-                    this.cbAutoLogin.Checked = account.autologin;
+                    if (account != null)
+                    {
+                        this.txtUserPwd.Text = account.userpwd;
+                        this.cbRememberMe.Checked = account.rememberme;
+                        this.cbAutoLogin.Checked = account.autologin;
+                    }
+                }
+                else if (txt == this.logoutInfo_txtUserName)
+                {
+                    if (account != null && account.autologin)
+                    {
+                        this.logoutInfo_cbCancelAutoLogin.Enabled = true;
+                    }
+                    else
+                    {
+                        this.logoutInfo_cbCancelAutoLogin.Enabled = false;
+                        this.logoutInfo_cbCancelAutoLogin.Checked = false;
+                    }
                 }
                 #endregion
             }
@@ -119,7 +137,9 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
 
         private void manager_Callback(IManagerPage page, CancelArgs _e)
         {
-            if (page is ILoginInfoPage)
+            if (page is ILogoutSucceededPage)
+                this.Switch(ManagerPageType.LogoutSucceeded);
+            else if (page is ILoginInfoPage)
                 this.Switch(ManagerPageType.LoginInfo);
             else if (page is ILoginSucceededPage)
                 this.Switch(ManagerPageType.LoginSucceeded);

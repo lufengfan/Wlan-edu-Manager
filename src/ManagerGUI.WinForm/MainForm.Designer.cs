@@ -41,10 +41,10 @@
             this.txtUserPwd = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.InfoTextBox();
             this.loginInfo_txtUserName = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.InfoTextBox();
             this.loginInfo_lblInfo = new System.Windows.Forms.Label();
-            this.statusBar = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.StatusBar();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.logoutInfoPagePanel = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.LogoutInfoPagePanel();
+            this.logoutInfo_cbCancelAutoLogin = new System.Windows.Forms.CheckBox();
             this.lblLogoutInfoInfo = new System.Windows.Forms.Label();
             this.logoutInfo_btnLogout = new System.Windows.Forms.Button();
             this.logoutInfo_txtUserName = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.InfoTextBox();
@@ -58,11 +58,13 @@
             this.cmsNotifyIcon_tsmiAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsNotifyIcon_tsmiSeperator2 = new System.Windows.Forms.ToolStripSeparator();
             this.cmsNotifyIcon_tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.statusBar = new SamLu.Tools.Wlan_edu_Manager.GUI.Controls.WinForm.StatusBar();
             this.loginSucceededPagePanel = new SamLu.Tools.Wlan_edu_Manager.GUI.LightLoginSucceededPagePanel();
+            this.loginSucceeded_cbCancelAutoLogin = new System.Windows.Forms.CheckBox();
             this.lblWlanInfos = new System.Windows.Forms.Label();
             this.lblLoginDuration = new System.Windows.Forms.Label();
             this.loginSucceeded_btnLogout = new System.Windows.Forms.Button();
-            this.timer = new System.Windows.Forms.Timer(this.components);
             this.loginInfoPagePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.logoutInfoPagePanel.SuspendLayout();
@@ -243,20 +245,6 @@
             this.loginInfo_lblInfo.Text = "Wlan-edu 登录";
             this.loginInfo_lblInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // statusBar
-            // 
-            this.statusBar.BackColor = System.Drawing.Color.ForestGreen;
-            this.statusBar.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.statusBar.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.statusBar.ForeColor = System.Drawing.Color.White;
-            this.statusBar.Location = new System.Drawing.Point(0, 336);
-            this.statusBar.Name = "statusBar";
-            this.statusBar.Size = new System.Drawing.Size(464, 25);
-            this.statusBar.TabIndex = 6;
-            this.statusBar.Text = "就绪";
-            this.statusBar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.statusBar.Visible = false;
-            // 
             // errorProvider
             // 
             this.errorProvider.ContainerControl = this;
@@ -264,6 +252,8 @@
             // logoutInfoPagePanel
             // 
             this.logoutInfoPagePanel.BackColor = System.Drawing.Color.White;
+            this.logoutInfoPagePanel.CancelAutoLoginCheckBox = this.logoutInfo_cbCancelAutoLogin;
+            this.logoutInfoPagePanel.Controls.Add(this.logoutInfo_cbCancelAutoLogin);
             this.logoutInfoPagePanel.Controls.Add(this.lblLogoutInfoInfo);
             this.logoutInfoPagePanel.Controls.Add(this.logoutInfo_btnLogout);
             this.logoutInfoPagePanel.Controls.Add(this.logoutInfo_txtUserName);
@@ -276,6 +266,17 @@
             this.logoutInfoPagePanel.TabIndex = 7;
             this.logoutInfoPagePanel.UserNameTextBox = this.logoutInfo_txtUserName;
             this.logoutInfoPagePanel.Logout += new SamLu.Tools.Wlan_edu_Manager.LogoutEventHandler(this.logout);
+            // 
+            // logoutInfo_cbCancelAutoLogin
+            // 
+            this.logoutInfo_cbCancelAutoLogin.AutoSize = true;
+            this.logoutInfo_cbCancelAutoLogin.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.logoutInfo_cbCancelAutoLogin.Location = new System.Drawing.Point(302, 150);
+            this.logoutInfo_cbCancelAutoLogin.Name = "logoutInfo_cbCancelAutoLogin";
+            this.logoutInfo_cbCancelAutoLogin.Size = new System.Drawing.Size(112, 24);
+            this.logoutInfo_cbCancelAutoLogin.TabIndex = 4;
+            this.logoutInfo_cbCancelAutoLogin.Text = "取消自动登录";
+            this.logoutInfo_cbCancelAutoLogin.UseVisualStyleBackColor = true;
             // 
             // lblLogoutInfoInfo
             // 
@@ -352,7 +353,7 @@
             this.cmsNotifyIcon_tsmiSeperator2,
             this.cmsNotifyIcon_tsmiExit});
             this.cmsNotifyIcon.Name = "cmsNotifyIcon";
-            this.cmsNotifyIcon.Size = new System.Drawing.Size(200, 148);
+            this.cmsNotifyIcon.Size = new System.Drawing.Size(200, 126);
             // 
             // cmsNotifyIcon_tsmiLogin
             // 
@@ -408,8 +409,29 @@
             this.cmsNotifyIcon_tsmiExit.Text = "退出(&X)";
             this.cmsNotifyIcon_tsmiExit.Click += new System.EventHandler(this.cmsNotifyIcon_tsmiExit_Click);
             // 
+            // timer
+            // 
+            this.timer.Interval = 1000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // statusBar
+            // 
+            this.statusBar.BackColor = System.Drawing.Color.ForestGreen;
+            this.statusBar.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.statusBar.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.statusBar.ForeColor = System.Drawing.Color.White;
+            this.statusBar.Location = new System.Drawing.Point(0, 336);
+            this.statusBar.Name = "statusBar";
+            this.statusBar.Size = new System.Drawing.Size(464, 25);
+            this.statusBar.TabIndex = 6;
+            this.statusBar.Text = "就绪";
+            this.statusBar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.statusBar.Visible = false;
+            // 
             // loginSucceededPagePanel
             // 
+            this.loginSucceededPagePanel.CancelAutoLoginCheckBox = this.loginSucceeded_cbCancelAutoLogin;
+            this.loginSucceededPagePanel.Controls.Add(this.loginSucceeded_cbCancelAutoLogin);
             this.loginSucceededPagePanel.Controls.Add(this.lblWlanInfos);
             this.loginSucceededPagePanel.Controls.Add(this.lblLoginDuration);
             this.loginSucceededPagePanel.Controls.Add(this.loginSucceeded_btnLogout);
@@ -418,8 +440,19 @@
             this.loginSucceededPagePanel.LogoutButton = this.loginSucceeded_btnLogout;
             this.loginSucceededPagePanel.Name = "loginSucceededPagePanel";
             this.loginSucceededPagePanel.Size = new System.Drawing.Size(464, 336);
-            this.loginSucceededPagePanel.TabIndex = 8;
+            this.loginSucceededPagePanel.TabIndex = 10;
             this.loginSucceededPagePanel.Logout += new SamLu.Tools.Wlan_edu_Manager.LogoutEventHandler(this.logout);
+            // 
+            // loginSucceeded_cbCancelAutoLogin
+            // 
+            this.loginSucceeded_cbCancelAutoLogin.AutoSize = true;
+            this.loginSucceeded_cbCancelAutoLogin.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.loginSucceeded_cbCancelAutoLogin.Location = new System.Drawing.Point(49, 235);
+            this.loginSucceeded_cbCancelAutoLogin.Name = "loginSucceeded_cbCancelAutoLogin";
+            this.loginSucceeded_cbCancelAutoLogin.Size = new System.Drawing.Size(112, 24);
+            this.loginSucceeded_cbCancelAutoLogin.TabIndex = 5;
+            this.loginSucceeded_cbCancelAutoLogin.Text = "取消自动登录";
+            this.loginSucceeded_cbCancelAutoLogin.UseVisualStyleBackColor = true;
             // 
             // lblWlanInfos
             // 
@@ -430,7 +463,7 @@
             this.lblWlanInfos.ForeColor = System.Drawing.Color.Red;
             this.lblWlanInfos.Location = new System.Drawing.Point(73, 145);
             this.lblWlanInfos.Name = "lblWlanInfos";
-            this.lblWlanInfos.Size = new System.Drawing.Size(318, 107);
+            this.lblWlanInfos.Size = new System.Drawing.Size(318, 87);
             this.lblWlanInfos.TabIndex = 4;
             // 
             // lblLoginDuration
@@ -462,11 +495,6 @@
             this.loginSucceeded_btnLogout.Text = "下线";
             this.loginSucceeded_btnLogout.UseVisualStyleBackColor = false;
             // 
-            // timer
-            // 
-            this.timer.Interval = 1000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -492,6 +520,7 @@
             this.logoutInfoPagePanel.PerformLayout();
             this.cmsNotifyIcon.ResumeLayout(false);
             this.loginSucceededPagePanel.ResumeLayout(false);
+            this.loginSucceededPagePanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -508,7 +537,6 @@
         private System.Windows.Forms.CheckBox cbAutoLogin;
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.LinkLabel linkLabel;
-        private Controls.WinForm.StatusBar statusBar;
         private System.Windows.Forms.ImageList ilPwdBoxOption;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ErrorProvider errorProvider;
@@ -522,14 +550,17 @@
         private System.Windows.Forms.ToolStripMenuItem cmsNotifyIcon_tsmiLogout;
         private System.Windows.Forms.ToolStripSeparator cmsNotifyIcon_tsmiSeperator1;
         private System.Windows.Forms.ToolStripMenuItem cmsNotifyIcon_tsmiSettings;
-        private LightLoginSucceededPagePanel loginSucceededPagePanel;
-        private System.Windows.Forms.Button loginSucceeded_btnLogout;
         private System.Windows.Forms.Label lblLogoutInfoInfo;
-        private System.Windows.Forms.Label lblLoginDuration;
-        private System.Windows.Forms.Label lblWlanInfos;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.ToolStripMenuItem cmsNotifyIcon_tsmiAbout;
         private System.Windows.Forms.ToolStripSeparator cmsNotifyIcon_tsmiSeperator2;
         private System.Windows.Forms.ToolStripMenuItem cmsNotifyIcon_tsmiExit;
+        private Controls.WinForm.StatusBar statusBar;
+        private System.Windows.Forms.CheckBox logoutInfo_cbCancelAutoLogin;
+        private LightLoginSucceededPagePanel loginSucceededPagePanel;
+        private System.Windows.Forms.Label lblWlanInfos;
+        private System.Windows.Forms.Label lblLoginDuration;
+        private System.Windows.Forms.Button loginSucceeded_btnLogout;
+        private System.Windows.Forms.CheckBox loginSucceeded_cbCancelAutoLogin;
     }
 }
