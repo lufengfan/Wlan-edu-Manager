@@ -38,7 +38,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.Logout.Implementation
         {
             base.Initialize();
 
-            this.loginActionAddress = $"{this.scriptVariants["httpBase"]}{this.scriptVariants["ctxPath"]}/portalLogin.wlan?{Wlan_eduManager.GetMiliseconds(base.currentTime)}";
+            this.loginActionAddress = $"{this.scriptVariants["httpBase"]}{this.scriptVariants["ctxPath"]}/portalLogin.wlan?{Wlan_eduManager.DateTimeToUnixTimeStamp(base.currentTime)}";
         }
         
         /// <summary>

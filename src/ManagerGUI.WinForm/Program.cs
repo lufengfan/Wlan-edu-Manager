@@ -76,7 +76,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.GUI
                             { "ctxPath", "/zmcc" }
                         },
                         currentTime = currentTime,
-                        loginActionAddress = $"https://211.138.125.52:7090/zmcc/portalLogin.wlan?{Wlan_eduManager.GetMiliseconds(currentTime)}",
+                        loginActionAddress = $"https://211.138.125.52:7090/zmcc/portalLogin.wlan?{Wlan_eduManager.DateTimeToUnixTimeStamp(currentTime)}",
                         fetchTemporaryPwdAddress = $"https://211.138.125.52:7090/zmcc/portalApplyPwd.wlan"
                     }
                 );

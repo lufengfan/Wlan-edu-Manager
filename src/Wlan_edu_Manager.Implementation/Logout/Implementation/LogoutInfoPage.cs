@@ -69,7 +69,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.Logout.Implementation
                 );
 
             this.currentTime = DateTime.Now;
-            this.loginActionAddress = $"{this.scriptVariants["httpBase"]}{this.scriptVariants["ctxPath"]}/portalLogout.wlan?isCloseWindow=N&{Wlan_eduManager.GetMiliseconds(this.currentTime)}";
+            this.loginActionAddress = $"{this.scriptVariants["httpBase"]}{this.scriptVariants["ctxPath"]}/portalLogout.wlan?isCloseWindow=N&{Wlan_eduManager.DateTimeToUnixTimeStamp(this.currentTime)}";
         }
 
         /// <summary>
@@ -84,7 +84,11 @@ namespace SamLu.Tools.Wlan_edu_Manager.Logout.Implementation
             {
                 wlanAcName = this.wlanAcName,
                 wlanUserIp = this.wlanUserIp,
-                userName = userName
+                userName = userName,
+                encryUser = string.Format("{0}{1:D15}",
+                    this.currentTime.ToString("yyyyMMddHHmmssfff"), // 当前日期时间作为前17位.
+                    0 // 后跟15位0，补齐32位。
+                )
             };
             string dataStr = logoutInfo.SerializeData();
 

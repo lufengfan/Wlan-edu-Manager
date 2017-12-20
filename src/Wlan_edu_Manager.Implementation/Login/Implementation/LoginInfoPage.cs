@@ -72,7 +72,7 @@ namespace SamLu.Tools.Wlan_edu_Manager.Login.Implementation
             this.currentTime = DateTime.Now;
 
             this.loginActionAddress = this.document.GetElementbyId("Wlan_Login")?.GetAttributeValue("action", null) ??
-                $"{this.scriptVariants["httpBase"]}{this.scriptVariants["ctxPath"]}/portalLogin.wlan?{Wlan_eduManager.GetMiliseconds(this.currentTime)}";
+                $"{this.scriptVariants["httpBase"]}{this.scriptVariants["ctxPath"]}/portalLogin.wlan?{Wlan_eduManager.DateTimeToUnixTimeStamp(this.currentTime)}";
             this.fetchTemporaryPwdAddress = $"{this.scriptVariants["httpBase"]}{this.scriptVariants["ctxPath"]}/portalApplyPwd.wlan";
         }
 
